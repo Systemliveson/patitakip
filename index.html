@@ -1,0 +1,1697 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<meta content="#e45b58" name="theme-color"/>
+<title>PatiTakip | Kedi Yönetim Sistemi</title>
+<link href="https://cdnjs.cloudflare.com" rel="preconnect"/>
+<script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style data-role="advanced-features">
+
+    :root{
+      --bg:#f7efe0;--bg-alt:#fff7ea;--panel:#fffdfa;--panel-2:#fff7eb;--text:#342516;--muted:#7d6855;
+      --primary:#ea8d22;--primary-2:#ffb44c;--success:#2b8a57;--warning:#bc7c13;--danger:#d5585b;
+      --line:#ead8bc;--shadow:0 16px 42px rgba(87,56,23,.12);--radius:24px;--sidebar:#f7e7d0;--sidebar-line:#efd8b7;
+      --hero1:#fff9f0;--hero2:#f8ecda;--soft:#fff4e4;--bubble:#ffffff;--nav-active:#f39b2c;--widget-dark:#2f3137;
+    }
+    body[data-theme="night"]{
+      --bg:#09162f;--bg-alt:#0c1c3b;--panel:#102142;--panel-2:#15284d;--text:#f8edd3;--muted:#b9b0a4;
+      --primary:#f0ad3c;--primary-2:#ffd36c;--success:#64c48f;--warning:#f2bf52;--danger:#ff8b94;
+      --line:#25355d;--shadow:0 18px 48px rgba(0,0,0,.34);--sidebar:#0b1731;--sidebar-line:#23375f;
+      --hero1:#0d1e40;--hero2:#0a1630;--soft:#102349;--bubble:#f7e5bf;--nav-active:#182b53;--widget-dark:#0c1832;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:radial-gradient(circle at top left,var(--bg-alt),var(--bg));color:var(--text);transition:background .35s ease,color .35s ease}
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer}
+    .app{min-height:100vh;display:grid;grid-template-columns:265px 1fr}
+    .sidebar{position:sticky;top:0;height:100vh;padding:18px 16px;background:linear-gradient(180deg,var(--sidebar),color-mix(in srgb,var(--sidebar) 84%, #fff 16%));border-right:1px solid var(--sidebar-line);color:var(--text);display:flex;flex-direction:column;z-index:20;transition:background .35s ease,border-color .35s ease}
+    .brand{display:flex;align-items:center;gap:12px;padding:8px 10px 20px}.brand-logo{width:48px;height:48px;border-radius:18px;background:linear-gradient(145deg,var(--primary),var(--primary-2));display:grid;place-items:center;font-size:26px;box-shadow:0 12px 28px rgba(240,156,50,.25)}
+    .brand h1{font-size:25px;margin:0;font-weight:900;letter-spacing:.2px}.brand small{color:var(--muted);font-size:12px}
+    .nav{display:grid;gap:14px;margin-top:8px}
+    .nav button{position:relative;border:1px solid var(--line);background:var(--panel);color:var(--text);padding:15px 16px 16px;border-radius:24px 24px 28px 28px;text-align:left;display:flex;gap:11px;align-items:center;font-weight:800;box-shadow:var(--shadow);transition:.22s}
+    .nav button::before,.nav button::after{content:"";position:absolute;top:-8px;width:22px;height:22px;background:var(--panel);border:1px solid var(--line);transform:rotate(45deg);border-bottom:none;border-right:none}
+    .nav button::before{left:32px}.nav button::after{right:32px}
+    .nav button:hover{transform:translateY(-2px)}
+    .nav button.active{background:linear-gradient(180deg,var(--nav-active),color-mix(in srgb,var(--nav-active) 85%, #fff 15%));color:#fff;border-color:transparent}
+    body[data-theme="night"] .nav button.active{box-shadow:0 14px 30px rgba(0,0,0,.4)}
+    .nav button.active::before,.nav button.active::after{background:inherit;border-color:transparent}
+    .miyav-bubble{align-self:flex-end;margin:4px 6px 2px auto;background:var(--bubble);color:#3d2a18;border-radius:999px;padding:8px 14px;font-weight:800;box-shadow:var(--shadow);border:1px solid var(--line)}
+    .side-footer{margin-top:auto;padding:14px 10px;color:var(--muted);font-size:12px;line-height:1.55}
+    .main{min-width:0;padding:22px 24px 48px}
+    .topbar{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:20px}.topbar h2{margin:0;font-size:27px}.topbar p{margin:4px 0 0;color:var(--muted)}
+    .top-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+    .btn{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:14px;padding:10px 14px;font-weight:800;display:inline-flex;align-items:center;gap:8px;justify-content:center;box-shadow:0 8px 18px rgba(31,36,48,.05);transition:.2s}
+    .btn:hover{transform:translateY(-1px);box-shadow:0 12px 24px rgba(31,36,48,.08)}
+    .btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;border-color:transparent}.btn-danger{color:#fff;background:var(--danger);border-color:transparent}.btn-success{color:#fff;background:var(--success);border-color:transparent}.btn-sm{padding:7px 10px;border-radius:12px;font-size:13px}
+    .grid{display:grid;gap:16px}.stats{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:18px}
+    .stat{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow);display:flex;justify-content:space-between;gap:12px;align-items:center}.stat .value{font-size:30px;font-weight:850}.stat .label{color:var(--muted);font-size:13px;margin-top:3px}.stat .icon{width:48px;height:48px;border-radius:15px;background:color-mix(in srgb,var(--panel) 20%, var(--primary) 16%);display:grid;place-items:center;font-size:23px}
+    .content-grid{grid-template-columns:1.35fr .65fr;align-items:start}
+    .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}.panel-head{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;align-items:center}.panel-head h3{margin:0;font-size:17px}.panel-body{padding:18px 20px}
+    .search-row{display:grid;grid-template-columns:1fr 170px 170px;gap:10px;margin-bottom:14px}.input,.select,.textarea{width:100%;border:1px solid var(--line);border-radius:14px;padding:11px 12px;background:var(--panel);color:var(--text);outline:none}.input:focus,.select:focus,.textarea:focus{border-color:color-mix(in srgb,var(--primary) 60%, #fff 40%);box-shadow:0 0 0 3px rgba(111,75,242,.08)}
+    .cats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+    .cat-card{border:1px solid var(--line);border-radius:17px;overflow:hidden;background:var(--panel);transition:.2s;cursor:pointer;box-shadow:var(--shadow)}.cat-card:hover{transform:translateY(-3px);box-shadow:0 14px 28px rgba(31,36,48,.1)}
+    .cat-photo{height:150px;background:linear-gradient(145deg,color-mix(in srgb,var(--panel) 70%, var(--primary) 12%),var(--panel));position:relative;overflow:hidden;display:grid;place-items:center;font-size:55px}.cat-photo img{width:100%;height:100%;object-fit:cover}.status-dot{position:absolute;right:10px;top:10px;padding:6px 9px;border-radius:999px;font-size:11px;font-weight:800;background:var(--panel);box-shadow:0 5px 14px rgba(0,0,0,.12)}
+    .cat-info{padding:13px}.cat-title{display:flex;justify-content:space-between;gap:8px;align-items:center}.cat-title h4{margin:0;font-size:16px}.cat-meta{font-size:12px;color:var(--muted);margin:5px 0 10px}.chips{display:flex;gap:6px;flex-wrap:wrap}.chip{font-size:11px;padding:5px 7px;border-radius:999px;background:color-mix(in srgb,var(--panel) 75%, var(--text) 10%);color:var(--muted)}.chip.warn{background:#fff3dc;color:#9a5f00}.chip.danger{background:#ffe8ec;color:#a92d40}.chip.good{background:#e8f7f0;color:#126d4c}
+    .task-list,.timeline{display:grid;gap:10px}.task{border:1px solid var(--line);border-radius:13px;padding:12px;display:flex;justify-content:space-between;gap:10px;align-items:flex-start;background:color-mix(in srgb,var(--panel) 88%, var(--soft) 12%)}.task.overdue{border-color:#f3b6c0;background:#fff6f8}.task.today{border-color:#f1d392;background:#fffaf0}.task strong{display:block;font-size:14px}.task small{color:var(--muted)}
+    .empty{text-align:center;padding:34px 16px;color:var(--muted)}.empty .big{font-size:42px;margin-bottom:8px}.section{display:none}.section.active{display:block}
+    .table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:760px}.table th,.table td{text-align:left;border-bottom:1px solid var(--line);padding:12px 10px;font-size:13px}.table th{color:var(--muted);font-weight:700;background:color-mix(in srgb,var(--panel) 80%, var(--soft) 20%)}
+    .badge{display:inline-flex;align-items:center;padding:5px 8px;border-radius:999px;font-size:11px;font-weight:800}.badge-green{background:#e6f7ef;color:#12734f}.badge-red{background:#ffe8ec;color:#ad3042}.badge-yellow{background:#fff4d9;color:#9d6505}.badge-gray{background:#eef0f5;color:#616879}
+    .modal-backdrop{position:fixed;inset:0;background:rgba(14,15,23,.62);display:none;align-items:center;justify-content:center;padding:18px;z-index:100}.modal-backdrop.show{display:flex}.modal{width:min(820px,100%);max-height:92vh;overflow:auto;background:var(--panel);border-radius:22px;box-shadow:0 24px 70px rgba(0,0,0,.3)}
+    .modal-head{position:sticky;top:0;background:var(--panel);z-index:2;padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.modal-head h3{margin:0}.icon-btn{width:38px;height:38px;border-radius:11px;border:1px solid var(--line);background:var(--panel);color:var(--text)}.modal-body{padding:20px}.modal-foot{position:sticky;bottom:0;background:var(--panel);padding:15px 20px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:10px}
+    .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.form-group{display:grid;gap:6px}.form-group.full{grid-column:1/-1}.form-group label{font-size:12px;font-weight:800;color:var(--muted)}.help{font-size:11px;color:var(--muted)}
+    .photo-editor{border:1px solid var(--line);border-radius:18px;background:color-mix(in srgb,var(--panel) 84%, var(--soft) 16%);padding:14px;display:grid;grid-template-columns:minmax(280px,1.25fr) minmax(220px,.75fr);gap:16px;align-items:start}
+    .photo-stage{position:relative;aspect-ratio:4/3;border-radius:16px;overflow:hidden;background:linear-gradient(145deg,color-mix(in srgb,var(--panel) 70%, var(--primary) 10%),var(--panel));border:1px dashed color-mix(in srgb,var(--line) 75%, var(--primary) 25%);touch-action:none;user-select:none;cursor:grab}.photo-stage.dragging{cursor:grabbing}.photo-stage canvas{display:block;width:100%;height:100%}.photo-empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--muted);padding:24px;pointer-events:none}.photo-empty .big{font-size:48px;display:block;margin-bottom:7px}
+    .photo-guide{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to right,transparent 33.1%,rgba(255,255,255,.55) 33.3%,rgba(255,255,255,.55) 33.7%,transparent 33.9%,transparent 66.1%,rgba(255,255,255,.55) 66.3%,rgba(255,255,255,.55) 66.7%,transparent 66.9%),linear-gradient(to bottom,transparent 33.1%,rgba(255,255,255,.55) 33.3%,rgba(255,255,255,.55) 33.7%,transparent 33.9%,transparent 66.1%,rgba(255,255,255,.55) 66.3%,rgba(255,255,255,.55) 66.7%,transparent 66.9%);opacity:.55}
+    .photo-controls{display:grid;gap:12px}.photo-controls .control{display:grid;gap:6px}.photo-controls label{font-size:12px;font-weight:800;color:var(--muted)}.photo-controls input[type=range]{width:100%;accent-color:var(--primary)}.photo-control-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.photo-preview-note{border-radius:12px;background:color-mix(in srgb,var(--panel) 70%, var(--primary) 12%);color:var(--text);padding:10px 11px;font-size:12px;line-height:1.45}.photo-file-label{width:100%}
+    .profile-head{display:grid;grid-template-columns:160px 1fr auto;gap:18px;align-items:start}.profile-photo{width:160px;height:160px;border-radius:20px;overflow:hidden;background:color-mix(in srgb,var(--panel) 72%, var(--primary) 10%);display:grid;place-items:center;font-size:64px}.profile-photo img{width:100%;height:100%;object-fit:cover}.profile-title h2{margin:0 0 5px}.profile-title p{margin:0;color:var(--muted)}.profile-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    .profile-grid{grid-template-columns:1fr 1fr;margin-top:18px}.info-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.info-item{border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--panel-2)}.info-item span{display:block;font-size:11px;color:var(--muted);margin-bottom:3px}.timeline-item{border-left:3px solid color-mix(in srgb,var(--primary) 65%, #fff 35%);padding:2px 0 12px 12px}.timeline-item h4{margin:0;font-size:15px}.timeline-item p{margin:4px 0;color:var(--muted);font-size:13px}.timeline-item small{color:var(--muted)}.qr-box{padding:18px;border:1px dashed var(--line);border-radius:16px;display:grid;place-items:center;min-height:230px;background:var(--panel-2)}
+    .toast{position:fixed;right:18px;bottom:18px;background:#20232e;color:#fff;padding:12px 14px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.25);opacity:0;pointer-events:none;transform:translateY(10px);transition:.2s;z-index:150}.toast.show{opacity:1;transform:none}
+    .dashboard-shell{display:grid;gap:18px}.hero-panel{position:relative;background:linear-gradient(160deg,var(--hero1),var(--hero2));border:1px solid var(--line);border-radius:34px;box-shadow:var(--shadow);padding:28px 26px 22px;overflow:hidden;min-height:280px}.hero-grid{display:grid;grid-template-columns:220px 1fr 220px;gap:18px;align-items:start}
+    .widget-pill{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow)}.date-widget{display:grid;gap:7px;font-weight:800}.date-widget small{color:var(--muted);font-weight:700}
+    .hero-center{text-align:center;position:relative;padding-top:20px}.hero-title{font-size:28px;font-weight:900;line-height:1.05;margin:30px 0 8px}.hero-title span{display:block;font-size:64px;color:var(--primary);letter-spacing:.4px}body[data-theme="night"] .hero-title span{color:#ffe1a6}.hero-subtitle{margin:0;color:var(--muted);font-size:17px}
+    .hanging-cat{position:absolute;left:50%;transform:translateX(-50%);top:-6px;width:160px;height:122px;pointer-events:none}.hanging-cat .head{position:absolute;left:50%;top:0;transform:translateX(-50%);width:110px;height:94px;border-radius:52% 52% 48% 48%;background:linear-gradient(180deg,#f3c586,#d89042);box-shadow:0 12px 24px rgba(0,0,0,.18);display:grid;place-items:center;font-size:54px}.hanging-cat .head::before,.hanging-cat .head::after{content:"";position:absolute;top:-16px;width:28px;height:28px;background:#e5a75d;transform:rotate(45deg);border-radius:6px}.hanging-cat .head::before{left:16px}.hanging-cat .head::after{right:16px}.hanging-cat .paw{position:absolute;top:64px;width:30px;height:44px;background:#f3d5ab;border-radius:16px;box-shadow:0 8px 18px rgba(0,0,0,.1)}.hanging-cat .paw.left{left:28px}.hanging-cat .paw.right{right:28px}.hanging-cat .head i{font-style:normal}
+    .quote-board{position:relative;padding-top:18px}.quote-board::before,.quote-board::after{content:"";position:absolute;top:0;width:2px;height:20px;background:color-mix(in srgb,var(--text) 35%, transparent 65%)}.quote-board::before{left:28px}.quote-board::after{right:28px}.quote-board p{margin:0;font-size:14px;line-height:1.6;text-align:center}
+    .theme-switcher{display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap}.theme-chip{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:999px;padding:9px 14px;font-weight:800}.theme-chip.active{background:linear-gradient(135deg,var(--primary),var(--primary-2));border-color:transparent;color:#fff}
+    .miyav-float{position:absolute;right:24px;top:78px;background:var(--bubble);padding:10px 16px;border-radius:999px;font-weight:900;border:1px solid var(--line);box-shadow:var(--shadow);color:#432b19}
+    .cat-dashboard-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.cat-widget{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:30px;box-shadow:var(--shadow);padding:22px 18px 16px;overflow:hidden;min-height:235px}.cat-widget::before,.cat-widget::after{content:"";position:absolute;top:-8px;width:26px;height:26px;background:var(--panel);border:1px solid var(--line);transform:rotate(45deg)}.cat-widget::before{left:28px}.cat-widget::after{right:28px}
+    .cat-widget--dark{background:linear-gradient(180deg,var(--widget-dark),color-mix(in srgb,var(--widget-dark) 85%, #000 15%));color:#fff;border-color:transparent}.cat-widget--dark::before,.cat-widget--dark::after{background:inherit;border-color:transparent}.cat-widget--blue{background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 72%, #c8e2ff 28%),color-mix(in srgb,var(--panel) 88%, #fff 12%))}.cat-widget--green{background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 72%, #d7f0db 28%),color-mix(in srgb,var(--panel) 88%, #fff 12%))}.cat-widget--purple{background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 72%, #e7dcff 28%),color-mix(in srgb,var(--panel) 88%, #fff 12%))}.cat-widget--yellow{background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 72%, #ffe8b8 28%),color-mix(in srgb,var(--panel) 88%, #fff 12%))}.cat-widget--peach{background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 72%, #ffd9cf 28%),color-mix(in srgb,var(--panel) 88%, #fff 12%))}
+    .widget-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}.widget-head .mini{font-size:12px;color:var(--muted);font-weight:700}.cat-widget--dark .mini,.cat-widget--dark .mini-list small{color:#c4cbe2}
+    .mini-list{display:grid;gap:10px}.mini-item{display:flex;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:16px;border:1px solid color-mix(in srgb,var(--line) 80%, transparent 20%);background:color-mix(in srgb,var(--panel) 72%, #fff 28%)}.cat-widget--dark .mini-item{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.08)}.mini-item strong{display:block;font-size:14px}.mini-item small{display:block;color:var(--muted)}.mini-item .time{font-size:12px;font-weight:900;color:var(--warning)}
+    .avatar-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.tiny-cat{width:48px;height:48px;border-radius:50%;overflow:hidden;background:color-mix(in srgb,var(--panel) 72%, var(--primary) 14%);display:grid;place-items:center;font-size:20px;border:2px solid rgba(255,255,255,.6)}.tiny-cat img{width:100%;height:100%;object-fit:cover}
+    .split-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:8px}.split-stats .box{background:color-mix(in srgb,var(--panel) 80%, #fff 20%);border:1px solid var(--line);border-radius:18px;padding:12px}.cat-widget--dark .split-stats .box{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.08)}.split-stats .value{font-size:28px;font-weight:900}.split-stats .label{font-size:12px;color:var(--muted)}
+    .line-note{background:color-mix(in srgb,var(--panel) 82%, #fff 18%);border:1px solid var(--line);border-radius:18px;padding:14px;font-size:14px;line-height:1.6}.cat-widget--dark .line-note{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.08)}.floating-paw{position:absolute;right:14px;bottom:12px;font-size:34px;opacity:.7}
+    .footer-motto{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:14px 18px;box-shadow:var(--shadow);text-align:center;font-weight:800;color:var(--muted)}
+    .theme-preview{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.theme-card{padding:18px;border-radius:22px;border:1px solid var(--line);box-shadow:var(--shadow);display:grid;gap:10px;background:var(--panel)}.theme-card.day{background:linear-gradient(180deg,#fff8ef,#f5ead7)}.theme-card.night{background:linear-gradient(180deg,#102142,#09162f);color:#fff}.theme-card strong{font-size:18px}
+    @media(max-width:1180px){.hero-grid{grid-template-columns:1fr;}.miyav-float{display:none}.cat-dashboard-grid{grid-template-columns:1fr 1fr}.cats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:760px){.app{display:block}.sidebar{display:none}.main{padding:16px 14px 86px}.topbar{align-items:flex-start}.topbar h2{font-size:23px}.topbar p{font-size:13px}.top-actions .btn:not(.btn-primary){display:none}.stats{grid-template-columns:repeat(2,1fr);gap:10px}.stat{padding:14px}.stat .value{font-size:24px}.stat .icon{width:42px;height:42px}.search-row{grid-template-columns:1fr}.cats,.cat-dashboard-grid{grid-template-columns:1fr;gap:10px}.cat-photo{height:120px}.panel-head,.panel-body{padding-left:14px;padding-right:14px}.form-grid,.profile-grid,.theme-preview{grid-template-columns:1fr}.profile-head{grid-template-columns:95px 1fr}.profile-photo{width:95px;height:95px}.profile-actions{grid-column:1/-1;justify-content:flex-start}.info-list{grid-template-columns:1fr 1fr}.mobile-nav{position:fixed;left:10px;right:10px;bottom:10px;background:var(--sidebar);border:1px solid var(--sidebar-line);color:var(--text);border-radius:18px;padding:8px;display:grid;grid-template-columns:repeat(5,1fr);z-index:40;box-shadow:0 12px 35px rgba(0,0,0,.25)}.mobile-nav button{border:0;background:transparent;color:var(--muted);padding:7px 3px;border-radius:10px;font-size:10px}.mobile-nav button span{display:block;font-size:19px;margin-bottom:2px}.mobile-nav button.active{background:var(--nav-active);color:#fff}.modal-backdrop{padding:0;align-items:flex-end}.modal{max-height:96vh;border-radius:22px 22px 0 0}.modal-body{padding:16px}.modal-head,.modal-foot{padding-left:16px;padding-right:16px}.photo-editor{grid-template-columns:1fr;padding:10px}.photo-control-row{grid-template-columns:1fr 1fr}.hero-panel{padding-top:22px}.hero-title{font-size:22px}.hero-title span{font-size:42px}.hanging-cat{width:130px;height:105px}.hanging-cat .head{width:92px;height:78px;font-size:44px}.widget-pill{padding:14px}.split-stats .value{font-size:24px}}
+    @media print{.sidebar,.mobile-nav,.topbar,.no-print,.modal-foot,.theme-switcher{display:none!important}.app{display:block}.main{padding:0}.panel,.hero-panel,.cat-widget,.footer-motto{box-shadow:none;border:0}.section{display:none!important}#profileSection{display:block!important}}
+
+  
+
+    /* --- Showcase home redesign based on user reference --- */
+    body{background:#f6eadb}
+    .app{grid-template-columns:minmax(0,1fr) 132px;align-items:start}
+    .sidebar{order:2;position:sticky;top:8px;height:calc(100vh - 16px);background:transparent;border:0;padding:18px 8px 12px;box-shadow:none;display:flex;align-items:center}
+    .brand,.miyav-bubble,.side-footer{display:none}
+    .nav{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%}
+    .nav button{position:relative;width:106px;min-height:108px;padding:18px 10px 14px;border-radius:34px;border:3px solid #e0bb83;background:linear-gradient(180deg,#fffdf6,#f4e8d6);box-shadow:0 10px 22px rgba(146,93,42,.16);color:#5f4634;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;font-weight:800}
+    .nav button::before,.nav button::after{content:"";position:absolute;top:-10px;width:28px;height:28px;background:inherit;border:3px solid #e0bb83;border-bottom:none;z-index:-1}
+    .nav button::before{left:16px;transform:rotate(-40deg);border-radius:10px 12px 0 0}
+    .nav button::after{right:16px;transform:rotate(40deg);border-radius:12px 10px 0 0}
+    .nav .nav-ico{display:grid;place-items:center;width:58px;height:58px;border-radius:50%;background:linear-gradient(180deg,#fefefe,#f4ede5);font-size:30px;box-shadow:inset 0 2px 0 rgba(255,255,255,.9),0 6px 14px rgba(0,0,0,.08)}
+    .nav .nav-txt{font-size:12px;line-height:1.1;text-align:center}
+    .nav button.active{background:linear-gradient(180deg,#ff9678,#f57a59);color:#fff;border-color:#ffd2a8;box-shadow:0 14px 30px rgba(210,89,57,.25)}
+    .nav button.active .nav-ico{background:rgba(255,255,255,.22);color:#fff}
+    .nav button.active::before,.nav button.active::after{border-color:#ffd2a8}
+    .main{padding:0 14px 30px}
+
+    .storybook-home{position:relative;min-height:100vh;background:linear-gradient(180deg,#fbf5ec 0%,#fff8ef 38%,#f5e7d8 100%);border-radius:0 0 24px 24px;overflow:hidden;padding:150px 80px 46px;box-shadow:inset 0 -12px 50px rgba(185,116,68,.08)}
+    .storybook-home::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 25% 28%,rgba(255,255,255,.9),transparent 19%),radial-gradient(circle at 56% 24%,rgba(255,255,255,.8),transparent 16%),radial-gradient(circle at 78% 27%,rgba(255,255,255,.82),transparent 18%),radial-gradient(circle at 32% 50%,rgba(221,186,145,.22) 0 2px,transparent 3px),radial-gradient(circle at 35% 52%,rgba(221,186,145,.22) 0 2px,transparent 3px),radial-gradient(circle at 41% 49%,rgba(221,186,145,.22) 0 2px,transparent 3px),radial-gradient(circle at 13% 74%,rgba(219,183,143,.18) 0 4px,transparent 5px),radial-gradient(circle at 88% 73%,rgba(219,183,143,.18) 0 4px,transparent 5px);pointer-events:none}
+    .curtain{position:absolute;background:linear-gradient(180deg,#d95a45,#b84536);box-shadow:inset -8px 0 0 rgba(102,24,19,.08),inset 8px 0 0 rgba(255,213,175,.12)}
+    .curtain-top{left:0;right:0;top:0;height:108px;border-bottom-left-radius:26px;border-bottom-right-radius:26px;background:radial-gradient(circle at 50% 0,#f1b36d 0 4px,transparent 5px),linear-gradient(180deg,#d95a45,#c14837)}
+    .curtain-top::after{content:"";position:absolute;left:0;right:0;bottom:0;height:14px;background:repeating-linear-gradient(90deg,#d8b06c 0 8px,#f4d59c 8px 14px)}
+    .curtain-left,.curtain-right{top:0;bottom:0;width:68px;border-radius:0 0 26px 26px}
+    .curtain-left{left:0}.curtain-right{right:0}
+    .curtain-left::after,.curtain-right::after{content:"";position:absolute;bottom:190px;width:18px;height:110px;background:linear-gradient(180deg,#f5d38d,#d4a84f);border-radius:999px}
+    .curtain-left::after{left:54px}.curtain-right::after{right:54px}
+
+    .logo-cloud{position:absolute;left:18px;top:18px;width:340px;background:#fffaf0;border:3px solid #cfa66a;border-radius:60px 60px 60px 90px;padding:26px 30px 22px;box-shadow:0 10px 24px rgba(145,103,53,.13);z-index:2}
+    .logo-cloud::after{content:"";position:absolute;right:16px;bottom:-18px;width:90px;height:54px;border:3px solid #cfa66a;border-top:none;border-left:none;border-radius:0 0 46px 0;background:#fffaf0;transform:skewX(-28deg)}
+    .logo-cloud h1{margin:0;font-size:44px;line-height:1}.logo-cloud p{margin:10px 0 0;font-size:16px;color:#665446}.logo-pati{color:#dd684d}.logo-takip{color:#467f79}
+
+    .speech-bubble{position:absolute;background:#fffaf0;border:3px solid #997c58;border-radius:28px;padding:10px 18px;font-size:20px;font-weight:800;color:#5f4a39;box-shadow:0 8px 16px rgba(100,74,39,.08);z-index:3}
+    .speech-bubble::after{content:"";position:absolute;width:18px;height:18px;background:#fffaf0;border-right:3px solid #997c58;border-bottom:3px solid #997c58;transform:rotate(45deg)}
+    .speech-top{right:150px;top:42px}.speech-top::after{right:24px;bottom:-11px}
+    .speech-mid{right:136px;top:430px}.speech-mid::after{right:20px;bottom:-11px}
+
+    .hero-kitten{position:absolute;left:50%;top:42px;transform:translateX(-50%);width:176px;height:200px;z-index:4}
+    .hero-kitten-face{position:absolute;left:50%;top:0;transform:translateX(-50%);width:150px;height:150px;border-radius:50%;background:radial-gradient(circle at 50% 35%,#f9e3b4,#d69d59 70%);display:grid;place-items:center;font-size:88px;box-shadow:0 14px 30px rgba(102,62,22,.18);border:5px solid #fff2db}
+    .hero-kitten-face::before,.hero-kitten-face::after{content:"";position:absolute;top:-16px;width:42px;height:42px;background:linear-gradient(180deg,#a25a30,#d69b59);border-radius:10px 40px 10px 40px}
+    .hero-kitten-face::before{left:18px;transform:rotate(-24deg)}.hero-kitten-face::after{right:18px;transform:scaleX(-1) rotate(-24deg)}
+    .hero-kitten-paw{position:absolute;bottom:0;width:34px;height:74px;background:linear-gradient(180deg,#f4c892,#e5b16e);border-radius:20px;box-shadow:0 8px 18px rgba(102,62,22,.14)}
+    .paw-left{left:42px}.paw-right{right:42px}
+
+    .welcome-block{position:relative;text-align:center;z-index:2;margin-bottom:24px}
+    .welcome-mini{font-size:34px;font-weight:900;color:#528b7a;line-height:1}
+    .welcome-name{font-size:86px;font-weight:900;line-height:.98;color:#df6c4f;text-shadow:0 3px 0 #fff,0 10px 20px rgba(147,76,48,.18)}
+
+    .feature-grid-home{position:relative;z-index:2;display:grid;grid-template-columns:repeat(6,1fr);gap:16px;margin:22px 52px 28px}
+    .feature-card{position:relative;padding:88px 14px 16px;border:3px solid #ead8bf;border-radius:36px 36px 28px 28px;background:linear-gradient(180deg,#fffdf7,#f4ebdf);box-shadow:0 10px 18px rgba(128,88,42,.1);text-align:center;color:#5e4c3b;min-height:314px;cursor:pointer}
+    .feature-card::before,.feature-card::after{content:"";position:absolute;top:-18px;width:44px;height:44px;background:inherit;border:3px solid #ead8bf;border-bottom:none;z-index:0}
+    .feature-card::before{left:18px;transform:rotate(-40deg);border-radius:14px 20px 0 0}.feature-card::after{right:18px;transform:rotate(40deg);border-radius:20px 14px 0 0}
+    .feature-card.mint{background:linear-gradient(180deg,#bedfd8,#a3c9c1)}
+    .feature-card.coral{background:linear-gradient(180deg,#ff8f73,#ef7257);color:#fff}
+    .feature-card.cream{background:linear-gradient(180deg,#fffaf0,#f4ebdb)}
+    .feature-card.active-card{transform:translateY(-4px)}
+    .feature-icon{position:absolute;top:54px;left:50%;transform:translateX(-50%);font-size:46px;z-index:1}
+    .feature-card h3{margin:0 0 10px;font-size:19px;position:relative;z-index:1}
+    .feature-card p{margin:0;font-size:14px;line-height:1.45;position:relative;z-index:1}
+    .feature-go{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#e9b445;color:#fff;font-size:22px;font-weight:900;box-shadow:0 6px 12px rgba(188,130,29,.24)}
+
+    .home-bottom-row{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1.18fr;gap:24px;margin:0 140px 0 108px;align-items:start}
+    .home-box{background:rgba(255,250,243,.94);border:3px solid #ecd6b8;border-radius:28px;padding:20px 22px;box-shadow:0 10px 18px rgba(128,88,42,.08)}
+    .home-box-title{font-size:20px;font-weight:900;margin-bottom:14px;color:#5e4c3b}
+    .quick-stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .quick-stat{display:flex;align-items:center;gap:12px;border-top:1px solid #eadccb;padding-top:12px}
+    .quick-stat:nth-child(-n+2){border-top:0;padding-top:0}
+    .q-icon{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-size:24px;background:#f1efe8;color:#d27553}
+    .quick-stat span{display:block;font-size:40px;font-weight:900;line-height:1;color:#5a4639}
+    .quick-stat small{display:block;font-size:13px;color:#705e4f}
+    .today-reminders-list{display:grid;gap:12px;min-height:175px}
+    .reminder-item{display:grid;grid-template-columns:70px 1fr auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid #eadccb}
+    .reminder-item:first-child{border-top:0;padding-top:0}
+    .reminder-time{font-weight:900;color:#6f5445}
+    .reminder-cat{display:flex;align-items:center;gap:10px}.reminder-avatar{font-size:28px}
+    .reminder-status{padding:8px 12px;border-radius:12px;font-size:13px;font-weight:800}
+    .status-done{background:#dff0e7;color:#3e7a61}.status-soon{background:#fde7b8;color:#b07715}.status-pending{background:#ece8e2;color:#6a635c}.status-overdue{background:#ffdedd;color:#bf544f}
+    .view-all-btn{margin-top:10px;border:0;background:linear-gradient(180deg,#ff8d70,#ef7257);color:#fff;border-radius:16px;padding:12px 18px;font-weight:900;box-shadow:0 10px 20px rgba(220,101,72,.18)}
+
+    body[data-theme="night"] .storybook-home{background:linear-gradient(180deg,#2c2340 0%,#2a2b48 40%,#24334c 100%)}
+    body[data-theme="night"] .storybook-home::before{opacity:.45}
+    body[data-theme="night"] .logo-cloud, body[data-theme="night"] .speech-bubble, body[data-theme="night"] .home-box{background:#f8ecd9}
+    body[data-theme="night"] .welcome-mini{color:#9be0d1}
+    body[data-theme="night"] .welcome-name{color:#ffad8c}
+    body[data-theme="night"] .nav button{background:linear-gradient(180deg,#f5ead8,#eaddc8)}
+    body[data-theme="night"] .nav button.active{background:linear-gradient(180deg,#7fd1c2,#5ab0a1)}
+
+    @media (max-width:1250px){
+      .feature-grid-home{grid-template-columns:repeat(3,1fr);margin:22px 34px 26px}
+      .home-bottom-row{grid-template-columns:1fr; margin:0 70px}
+      .welcome-name{font-size:72px}
+    }
+    @media (max-width:900px){
+      .app{grid-template-columns:1fr}
+      .sidebar{display:none}
+      .storybook-home{padding:130px 20px 100px}
+      .logo-cloud{position:relative;left:auto;top:auto;width:auto;margin-bottom:18px}
+      .curtain-left,.curtain-right,.speech-bubble{display:none}
+      .hero-kitten{top:48px;width:120px;height:150px}.hero-kitten-face{width:100px;height:100px;font-size:58px}.hero-kitten-paw{height:48px;width:22px}.paw-left{left:28px}.paw-right{right:28px}
+      .welcome-mini{font-size:24px}.welcome-name{font-size:54px}
+      .feature-grid-home{grid-template-columns:1fr 1fr;margin:20px 0}
+      .feature-card{min-height:260px;padding-top:76px}
+      .home-bottom-row{margin:0;gap:18px}
+    }
+    @media (max-width:640px){
+      .feature-grid-home{grid-template-columns:1fr}
+      .welcome-name{font-size:40px}
+      .logo-cloud h1{font-size:34px}
+      .quick-stats-grid{grid-template-columns:1fr}
+      .home-box{padding:16px}
+      .reminder-item{grid-template-columns:58px 1fr;grid-template-areas:'time info''state state'}
+      .reminder-time{grid-area:time}.reminder-cat{grid-area:info}.reminder-status{grid-area:state;justify-self:start}
+    }
+
+  
+/* === KULLANICININ SEÇTİĞİ ANA SAYFA TASARIMI - KORUNAN SON KATMAN === */
+
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&family=Fredoka:wght@600;700&display=swap');
+
+    :root {
+      --bg: #fcf7ef;
+      --panel: #ffffff;
+      --text: #3c2a21;
+      --muted: #8c7a70;
+      --primary: #e45b58;
+      --primary-hover: #d33e3b;
+      --accent-teal: #78c0b8;
+      --accent-sage: #95c1a8;
+      --accent-coral: #f17b68;
+      --accent-cream: #faebd7;
+      --accent-yellow: #f8d47b;
+      --line: #ebdcca;
+      --shadow: 0 14px 35px rgba(60, 42, 33, 0.08);
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      background-image: radial-gradient(#ebdcca 1.5px, transparent 1.5px);
+      background-size: 30px 30px;
+      overflow-x: hidden;
+    }
+
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; outline: none; }
+
+    /* --- ANA YERLEŞİM (SAĞ MENÜ KONSEPTİ) --- */
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 120px;
+      position: relative;
+    }
+
+    .main {
+      min-width: 0;
+      padding: 24px 36px 60px;
+    }
+
+    /* SAĞ MENÜ (Tiyatro Perdesi Renginde Kedi Kafası Butonları) */
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      background: linear-gradient(180deg, #df5450 0%, #b83230 100%);
+      border-left: 4px solid #f8d47b;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 8px;
+      z-index: 50;
+      box-shadow: -8px 0 25px rgba(0,0,0,0.15);
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .nav button {
+      border: none;
+      background: #fff8ee;
+      color: var(--text);
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+      gap: 3px;
+      position: relative;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.18);
+    }
+
+    /* Menü Butonlarına Kedi Kulağı Eklenmesi */
+    .nav button::before, .nav button::after {
+      content: '';
+      position: absolute;
+      top: -6px;
+      width: 18px;
+      height: 18px;
+      background: inherit;
+      z-index: -1;
+      border-radius: 4px;
+      transition: inherit;
+    }
+    .nav button::before { left: 8px; transform: rotate(-30deg) skewX(20deg); }
+    .nav button::after { right: 8px; transform: rotate(30deg) skewX(-20deg); }
+
+    .nav button .nav-icon { font-size: 22px; }
+    .nav button:hover { transform: scale(1.1) translateY(-3px); background: #ffffff; color: var(--primary); }
+    .nav button.active {
+      background: #f8d47b;
+      color: #7b4b00;
+      transform: scale(1.08);
+      box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.3), 0 8px 18px rgba(0,0,0,0.2);
+    }
+
+    /* Konuşma Balonu (Miyavv) */
+    .miyav-bubble {
+      background: #fff;
+      color: #d33e3b;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      position: absolute;
+      top: 15px;
+      right: 105px;
+      white-space: nowrap;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      pointer-events: none;
+      animation: floatBubble 3s ease-in-out infinite;
+    }
+    .miyav-bubble::after {
+      content: '';
+      position: absolute;
+      right: -6px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-width: 6px 0 6px 8px;
+      border-style: solid;
+      border-color: transparent transparent transparent #fff;
+    }
+
+    @keyframes floatBubble {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    /* --- ÜST SAHNE & LOGO ALANI --- */
+    .hero-stage {
+      position: relative;
+      background: linear-gradient(180deg, #ffefdb 0%, #fcf7ef 100%);
+      border-radius: 32px;
+      padding: 24px 30px 36px;
+      border: 2px solid var(--line);
+      box-shadow: var(--shadow);
+      margin-bottom: 30px;
+      overflow: hidden;
+    }
+
+    /* Üst Perdeler İllüstrasyonu (CSS ile) */
+    .curtain-top {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 40px;
+      background: radial-gradient(circle at 20px -10px, transparent 22px, #e45b58 23px);
+      background-size: 40px 40px;
+      z-index: 5;
+    }
+
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: #ffffff;
+      padding: 10px 20px;
+      border-radius: 999px;
+      border: 2px solid #f4dec4;
+      box-shadow: 0 8px 20px rgba(228, 91, 88, 0.12);
+    }
+    .brand-badge .logo-icon { font-size: 28px; }
+    .brand-badge h1 { margin: 0; font-family: 'Fredoka', sans-serif; font-size: 22px; color: var(--primary); }
+    .brand-badge small { display: block; font-size: 11px; color: var(--muted); font-weight: 700; }
+
+    /* Tepeden Sarkan Kedi İllüstrasyonu */
+    .hanging-cat {
+      position: absolute;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 56px;
+      z-index: 6;
+      filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15));
+      animation: swingCat 4s ease-in-out infinite;
+    }
+
+    @keyframes swingCat {
+      0%, 100% { transform: translateX(-50%) rotate(0deg); }
+      50% { transform: translateX(-50%) rotate(-4deg); }
+    }
+
+    .hero-title-area {
+      text-align: center;
+      margin: 40px 0 25px;
+    }
+    .hero-title-area h2 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 42px;
+      margin: 0;
+      color: #e45b58;
+      text-shadow: 2px 2px 0px #fff, 0 8px 20px rgba(228, 91, 88, 0.2);
+    }
+    .hero-title-area span { color: #f8b44c; }
+
+    /* --- 6'LI KEDİ SİLUETLİ KARTLAR RAF SAHNESİ --- */
+    .cat-shelf {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+      gap: 18px;
+      position: relative;
+      padding-bottom: 12px;
+      border-bottom: 14px solid #ecd8bf;
+      border-radius: 0 0 10px 10px;
+    }
+
+    .shelf-card {
+      background: #fff;
+      border-radius: 24px 24px 20px 20px;
+      padding: 28px 16px 18px;
+      text-align: center;
+      position: relative;
+      cursor: pointer;
+      border: 2px solid rgba(0,0,0,0.04);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.06);
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* Kedi Kulakları */
+    .shelf-card::before, .shelf-card::after {
+      content: '';
+      position: absolute;
+      top: -12px;
+      width: 32px;
+      height: 32px;
+      background: inherit;
+      z-index: -1;
+      border-radius: 6px;
+    }
+    .shelf-card::before { left: 16px; transform: rotate(-25deg) skewX(15deg); }
+    .shelf-card::after { right: 16px; transform: rotate(25deg) skewX(-15deg); }
+
+    .shelf-card:hover { transform: translateY(-8px); box-shadow: 0 16px 30px rgba(0,0,0,0.12); }
+
+    .shelf-card.c-teal { background: #e3f5f3; color: #1c645e; }
+    .shelf-card.c-cream { background: #fdf5e6; color: #785226; }
+    .shelf-card.c-coral { background: #fcebe8; color: #a83626; }
+    .shelf-card.c-mint { background: #e8f7f0; color: #1e6e4a; }
+    .shelf-card.c-yellow { background: #fef8e3; color: #87640a; }
+    .shelf-card.c-sage { background: #ecf3ee; color: #2e5c40; }
+
+    .shelf-icon { font-size: 38px; margin-bottom: 8px; }
+    .shelf-card h4 { margin: 0 0 6px; font-family: 'Fredoka', sans-serif; font-size: 17px; }
+    .shelf-card p { font-size: 12px; opacity: 0.8; margin: 0 0 16px; line-height: 1.35; }
+    .shelf-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.08);
+      display: grid;
+      place-items: center;
+      margin: 0 auto;
+      font-weight: 900;
+      transition: 0.2s;
+    }
+    .shelf-card:hover .shelf-btn { background: var(--text); color: #fff; transform: scale(1.1); }
+
+    /* --- ALT BÖLÜM: WIDGET'LAR --- */
+    .widgets-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 24px;
+      margin-top: 30px;
+    }
+
+    .widget-box {
+      background: var(--panel);
+      border-radius: 28px;
+      padding: 24px;
+      border: 2px solid var(--line);
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .widget-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 2px dashed #f0e2d0;
+    }
+    .widget-head h3 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 20px;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+    }
+
+    /* İstatistik Kartları Grid */
+    .quick-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .q-stat {
+      background: #fdfaf6;
+      border: 1.5px solid var(--line);
+      border-radius: 20px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .q-stat-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .q-stat .val { font-family: 'Fredoka', sans-serif; font-size: 24px; font-weight: 700; line-height: 1; }
+    .q-stat .lbl { font-size: 12px; color: var(--muted); font-weight: 700; margin-top: 3px; }
+
+    /* Hatırlatmalar ve Liste */
+    .task-list { display: grid; gap: 10px; }
+    .task {
+      border: 1.5px solid var(--line);
+      border-radius: 16px;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      background: #fff;
+    }
+    .task.today { background: #fffcf5; border-color: #fce3b1; }
+    .task.overdue { background: #fff5f6; border-color: #fcc2c8; }
+    .task strong { font-size: 14px; display: block; color: var(--text); }
+    .task small { color: var(--muted); font-weight: 600; font-size: 12px; }
+
+    /* GENEL BİLEŞENLER (Butonlar vb.) */
+    .btn {
+      border: 1.5px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      border-radius: 14px;
+      padding: 10px 18px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+      transition: 0.2s;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
+    .btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-sm { padding: 6px 12px; font-size: 13px; border-radius: 10px; }
+
+    /* Kediler Listesi Grid */
+    .cats { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 16px; }
+    .cat-card {
+      border: 2px solid var(--line);
+      border-radius: 22px;
+      overflow: hidden;
+      background: #fff;
+      transition: 0.2s;
+      cursor: pointer;
+    }
+    .cat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .cat-photo {
+      height: 150px;
+      background: #fdf8f0;
+      position: relative;
+      display: grid;
+      place-items: center;
+      font-size: 55px;
+    }
+    .cat-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .status-dot {
+      position: absolute; right: 10px; top: 10px;
+      padding: 5px 10px; border-radius: 99px;
+      font-size: 11px; font-weight: 800;
+      background: rgba(255,255,255,0.9); box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .cat-info { padding: 14px; }
+    .cat-title { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .cat-title h4 { margin: 0; font-family: 'Fredoka', sans-serif; font-size: 17px; }
+
+    /* Modallar ve Sekmeler */
+    .section { display: none; }
+    .section.active { display: block; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .topbar h2 { font-family: 'Fredoka', sans-serif; font-size: 30px; margin: 0; }
+    .top-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .modal-backdrop {
+      position: fixed; inset: 0; background: rgba(60, 42, 33, 0.55);
+      display: none; align-items: center; justify-content: center; padding: 20px; z-index: 100;
+      backdrop-filter: blur(4px);
+    }
+    .modal-backdrop.show { display: flex; }
+    .modal { width: min(780px, 100%); max-height: 90vh; overflow: auto; background: #fff; border-radius: 28px; box-shadow: 0 25px 60px rgba(0,0,0,0.3); }
+    .modal-head { position: sticky; top: 0; background: #fff; z-index: 2; padding: 20px 24px; border-bottom: 1.5px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
+    .modal-head h3 { margin: 0; font-family: 'Fredoka', sans-serif; font-size: 20px; }
+    .modal-body { padding: 24px; }
+    .modal-foot { position: sticky; bottom: 0; background: #fff; padding: 16px 24px; border-top: 1.5px solid var(--line); display: flex; justify-content: flex-end; gap: 10px; }
+    
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group { display: grid; gap: 6px; }
+    .form-group.full { grid-column: 1 / -1; }
+    .input, .select, .textarea { width: 100%; border: 1.5px solid var(--line); border-radius: 14px; padding: 12px; outline: none; }
+    .input:focus, .select:focus, .textarea:focus { border-color: var(--primary); }
+
+    .toast {
+      position: fixed; right: 140px; bottom: 24px; background: #3c2a21; color: #fff;
+      padding: 12px 20px; border-radius: 16px; font-weight: 700;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2); opacity: 0; transform: translateY(15px);
+      pointer-events: none; transition: 0.3s; z-index: 200;
+    }
+    .toast.show { opacity: 1; transform: none; }
+
+    .empty { text-align: center; padding: 30px; color: var(--muted); font-weight: 700; }
+    .badge { padding: 4px 10px; border-radius: 99px; font-size: 11px; font-weight: 800; }
+    .badge-green { background: #e8f7f0; color: #12734f; }
+    .badge-yellow { background: #fef8e3; color: #9d6505; }
+
+    /* Mobil Responsive */
+    @media (max-width: 900px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar {
+        position: fixed; bottom: 0; top: auto; left: 0; right: 0; height: 75px;
+        flex-direction: row; justify-content: space-around; padding: 8px; border-left: none; border-top: 4px solid #f8d47b;
+      }
+      .nav { flex-direction: row; justify-content: space-around; margin: 0; }
+      .nav button { width: 56px; height: 56px; font-size: 10px; }
+      .miyav-bubble { display: none; }
+      .main { padding: 16px 16px 90px; }
+      .widgets-grid { grid-template-columns: 1fr; }
+      .hero-title-area h2 { font-size: 30px; }
+      .toast { right: 20px; bottom: 90px; }
+    }
+  
+
+    .mobile-nav{display:none!important}
+</style><style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&family=Fredoka:wght@600;700&display=swap');
+
+    :root {
+      --bg: #fcf7ef;
+      --panel: #ffffff;
+      --text: #3c2a21;
+      --muted: #8c7a70;
+      --primary: #e45b58;
+      --primary-hover: #d33e3b;
+      --accent-teal: #78c0b8;
+      --accent-sage: #95c1a8;
+      --accent-coral: #f17b68;
+      --accent-cream: #faebd7;
+      --accent-yellow: #f8d47b;
+      --line: #ebdcca;
+      --shadow: 0 14px 35px rgba(60, 42, 33, 0.08);
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      background-image: radial-gradient(#ebdcca 1.5px, transparent 1.5px);
+      background-size: 30px 30px;
+      overflow-x: hidden;
+    }
+
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; outline: none; }
+
+    /* --- ANA YERLEŞİM (SAĞ MENÜ KONSEPTİ) --- */
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 120px;
+      position: relative;
+    }
+
+    .main {
+      min-width: 0;
+      padding: 24px 36px 60px;
+    }
+
+    /* SAĞ MENÜ (Tiyatro Perdesi Renginde Kedi Kafası Butonları) */
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      background: linear-gradient(180deg, #df5450 0%, #b83230 100%);
+      border-left: 4px solid #f8d47b;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 8px;
+      z-index: 50;
+      box-shadow: -8px 0 25px rgba(0,0,0,0.15);
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .nav button {
+      border: none;
+      background: #fff8ee;
+      color: var(--text);
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+      gap: 3px;
+      position: relative;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.18);
+    }
+
+    /* Menü Butonlarına Kedi Kulağı Eklenmesi */
+    .nav button::before, .nav button::after {
+      content: '';
+      position: absolute;
+      top: -6px;
+      width: 18px;
+      height: 18px;
+      background: inherit;
+      z-index: -1;
+      border-radius: 4px;
+      transition: inherit;
+    }
+    .nav button::before { left: 8px; transform: rotate(-30deg) skewX(20deg); }
+    .nav button::after { right: 8px; transform: rotate(30deg) skewX(-20deg); }
+
+    .nav button .nav-icon { font-size: 22px; }
+    .nav button:hover { transform: scale(1.1) translateY(-3px); background: #ffffff; color: var(--primary); }
+    .nav button.active {
+      background: #f8d47b;
+      color: #7b4b00;
+      transform: scale(1.08);
+      box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.3), 0 8px 18px rgba(0,0,0,0.2);
+    }
+
+    /* Konuşma Balonu (Miyavv) */
+    .miyav-bubble {
+      background: #fff;
+      color: #d33e3b;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      position: absolute;
+      top: 15px;
+      right: 105px;
+      white-space: nowrap;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      pointer-events: none;
+      animation: floatBubble 3s ease-in-out infinite;
+    }
+    .miyav-bubble::after {
+      content: '';
+      position: absolute;
+      right: -6px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-width: 6px 0 6px 8px;
+      border-style: solid;
+      border-color: transparent transparent transparent #fff;
+    }
+
+    @keyframes floatBubble {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    /* --- ÜST SAHNE & LOGO ALANI --- */
+    .hero-stage {
+      position: relative;
+      background: linear-gradient(180deg, #ffefdb 0%, #fcf7ef 100%);
+      border-radius: 32px;
+      padding: 24px 30px 36px;
+      border: 2px solid var(--line);
+      box-shadow: var(--shadow);
+      margin-bottom: 30px;
+      overflow: hidden;
+    }
+
+    /* Üst Perdeler İllüstrasyonu (CSS ile) */
+    .curtain-top {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 40px;
+      background: radial-gradient(circle at 20px -10px, transparent 22px, #e45b58 23px);
+      background-size: 40px 40px;
+      z-index: 5;
+    }
+
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: #ffffff;
+      padding: 10px 20px;
+      border-radius: 999px;
+      border: 2px solid #f4dec4;
+      box-shadow: 0 8px 20px rgba(228, 91, 88, 0.12);
+    }
+    .brand-badge .logo-icon { font-size: 28px; }
+    .brand-badge h1 { margin: 0; font-family: 'Fredoka', sans-serif; font-size: 22px; color: var(--primary); }
+    .brand-badge small { display: block; font-size: 11px; color: var(--muted); font-weight: 700; }
+
+    /* Tepeden Sarkan Kedi İllüstrasyonu */
+    .hanging-cat {
+      position: absolute;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 56px;
+      z-index: 6;
+      filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15));
+      animation: swingCat 4s ease-in-out infinite;
+    }
+
+    @keyframes swingCat {
+      0%, 100% { transform: translateX(-50%) rotate(0deg); }
+      50% { transform: translateX(-50%) rotate(-4deg); }
+    }
+
+    .hero-title-area {
+      text-align: center;
+      margin: 40px 0 25px;
+    }
+    .hero-title-area h2 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 42px;
+      margin: 0;
+      color: #e45b58;
+      text-shadow: 2px 2px 0px #fff, 0 8px 20px rgba(228, 91, 88, 0.2);
+    }
+    .hero-title-area span { color: #f8b44c; }
+
+    /* --- 6'LI KEDİ SİLUETLİ KARTLAR RAF SAHNESİ --- */
+    .cat-shelf {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+      gap: 18px;
+      position: relative;
+      padding-bottom: 12px;
+      border-bottom: 14px solid #ecd8bf;
+      border-radius: 0 0 10px 10px;
+    }
+
+    .shelf-card {
+      background: #fff;
+      border-radius: 24px 24px 20px 20px;
+      padding: 28px 16px 18px;
+      text-align: center;
+      position: relative;
+      cursor: pointer;
+      border: 2px solid rgba(0,0,0,0.04);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.06);
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* Kedi Kulakları */
+    .shelf-card::before, .shelf-card::after {
+      content: '';
+      position: absolute;
+      top: -12px;
+      width: 32px;
+      height: 32px;
+      background: inherit;
+      z-index: -1;
+      border-radius: 6px;
+    }
+    .shelf-card::before { left: 16px; transform: rotate(-25deg) skewX(15deg); }
+    .shelf-card::after { right: 16px; transform: rotate(25deg) skewX(-15deg); }
+
+    .shelf-card:hover { transform: translateY(-8px); box-shadow: 0 16px 30px rgba(0,0,0,0.12); }
+
+    .shelf-card.c-teal { background: #e3f5f3; color: #1c645e; }
+    .shelf-card.c-cream { background: #fdf5e6; color: #785226; }
+    .shelf-card.c-coral { background: #fcebe8; color: #a83626; }
+    .shelf-card.c-mint { background: #e8f7f0; color: #1e6e4a; }
+    .shelf-card.c-yellow { background: #fef8e3; color: #87640a; }
+    .shelf-card.c-sage { background: #ecf3ee; color: #2e5c40; }
+
+    .shelf-icon { font-size: 38px; margin-bottom: 8px; }
+    .shelf-card h4 { margin: 0 0 6px; font-family: 'Fredoka', sans-serif; font-size: 17px; }
+    .shelf-card p { font-size: 12px; opacity: 0.8; margin: 0 0 16px; line-height: 1.35; }
+    .shelf-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.08);
+      display: grid;
+      place-items: center;
+      margin: 0 auto;
+      font-weight: 900;
+      transition: 0.2s;
+    }
+    .shelf-card:hover .shelf-btn { background: var(--text); color: #fff; transform: scale(1.1); }
+
+    /* --- ALT BÖLÜM: WIDGET'LAR --- */
+    .widgets-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 24px;
+      margin-top: 30px;
+    }
+
+    .widget-box {
+      background: var(--panel);
+      border-radius: 28px;
+      padding: 24px;
+      border: 2px solid var(--line);
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .widget-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 2px dashed #f0e2d0;
+    }
+    .widget-head h3 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 20px;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+    }
+
+    /* İstatistik Kartları Grid */
+    .quick-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .q-stat {
+      background: #fdfaf6;
+      border: 1.5px solid var(--line);
+      border-radius: 20px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .q-stat-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .q-stat .val { font-family: 'Fredoka', sans-serif; font-size: 24px; font-weight: 700; line-height: 1; }
+    .q-stat .lbl { font-size: 12px; color: var(--muted); font-weight: 700; margin-top: 3px; }
+
+    /* Hatırlatmalar ve Liste */
+    .task-list { display: grid; gap: 10px; }
+    .task {
+      border: 1.5px solid var(--line);
+      border-radius: 16px;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      background: #fff;
+    }
+    .task.today { background: #fffcf5; border-color: #fce3b1; }
+    .task.overdue { background: #fff5f6; border-color: #fcc2c8; }
+    .task strong { font-size: 14px; display: block; color: var(--text); }
+    .task small { color: var(--muted); font-weight: 600; font-size: 12px; }
+
+    /* GENEL BİLEŞENLER (Butonlar vb.) */
+    .btn {
+      border: 1.5px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      border-radius: 14px;
+      padding: 10px 18px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+      transition: 0.2s;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
+    .btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-sm { padding: 6px 12px; font-size: 13px; border-radius: 10px; }
+
+    /* Kediler Listesi Grid */
+    .cats { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 16px; }
+    .cat-card {
+      border: 2px solid var(--line);
+      border-radius: 22px;
+      overflow: hidden;
+      background: #fff;
+      transition: 0.2s;
+      cursor: pointer;
+    }
+    .cat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .cat-photo {
+      height: 150px;
+      background: #fdf8f0;
+      position: relative;
+      display: grid;
+      place-items: center;
+      font-size: 55px;
+    }
+    .cat-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .status-dot {
+      position: absolute; right: 10px; top: 10px;
+      padding: 5px 10px; border-radius: 99px;
+      font-size: 11px; font-weight: 800;
+      background: rgba(255,255,255,0.9); box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .cat-info { padding: 14px; }
+    .cat-title { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .cat-title h4 { margin: 0; font-family: 'Fredoka', sans-serif; font-size: 17px; }
+
+    /* Modallar ve Sekmeler */
+    .section { display: none; }
+    .section.active { display: block; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .topbar h2 { font-family: 'Fredoka', sans-serif; font-size: 30px; margin: 0; }
+    .top-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .modal-backdrop {
+      position: fixed; inset: 0; background: rgba(60, 42, 33, 0.55);
+      display: none; align-items: center; justify-content: center; padding: 20px; z-index: 100;
+      backdrop-filter: blur(4px);
+    }
+    .modal-backdrop.show { display: flex; }
+    .modal { width: min(780px, 100%); max-height: 90vh; overflow: auto; background: #fff; border-radius: 28px; box-shadow: 0 25px 60px rgba(0,0,0,0.3); }
+    .modal-head { position: sticky; top: 0; background: #fff; z-index: 2; padding: 20px 24px; border-bottom: 1.5px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
+    .modal-head h3 { margin: 0; font-family: 'Fredoka', sans-serif; font-size: 20px; }
+    .modal-body { padding: 24px; }
+    .modal-foot { position: sticky; bottom: 0; background: #fff; padding: 16px 24px; border-top: 1.5px solid var(--line); display: flex; justify-content: flex-end; gap: 10px; }
+    
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group { display: grid; gap: 6px; }
+    .form-group.full { grid-column: 1 / -1; }
+    .input, .select, .textarea { width: 100%; border: 1.5px solid var(--line); border-radius: 14px; padding: 12px; outline: none; }
+    .input:focus, .select:focus, .textarea:focus { border-color: var(--primary); }
+
+    .toast {
+      position: fixed; right: 140px; bottom: 24px; background: #3c2a21; color: #fff;
+      padding: 12px 20px; border-radius: 16px; font-weight: 700;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2); opacity: 0; transform: translateY(15px);
+      pointer-events: none; transition: 0.3s; z-index: 200;
+    }
+    .toast.show { opacity: 1; transform: none; }
+
+    .empty { text-align: center; padding: 30px; color: var(--muted); font-weight: 700; }
+    .badge { padding: 4px 10px; border-radius: 99px; font-size: 11px; font-weight: 800; }
+    .badge-green { background: #e8f7f0; color: #12734f; }
+    .badge-yellow { background: #fef8e3; color: #9d6505; }
+
+    /* Mobil Responsive */
+    @media (max-width: 900px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar {
+        position: fixed; bottom: 0; top: auto; left: 0; right: 0; height: 75px;
+        flex-direction: row; justify-content: space-around; padding: 8px; border-left: none; border-top: 4px solid #f8d47b;
+      }
+      .nav { flex-direction: row; justify-content: space-around; margin: 0; }
+      .nav button { width: 56px; height: 56px; font-size: 10px; }
+      .miyav-bubble { display: none; }
+      .main { padding: 16px 16px 90px; }
+      .widgets-grid { grid-template-columns: 1fr; }
+      .hero-title-area h2 { font-size: 30px; }
+      .toast { right: 20px; bottom: 90px; }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+<main class="main">
+<!-- === ANA SAYFA / DASHBOARD BÖLÜMÜ === -->
+<section class="section active" id="dashboardSection">
+<!-- Tiyatro Konseptli Üst Sahne -->
+<div class="hero-stage">
+<div class="curtain-top"></div>
+<div class="hanging-cat">🐱</div>
+<div style="display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 10;">
+<div class="brand-badge">
+<span class="logo-icon">🐾</span>
+<div>
+<h1>PatiTakip</h1>
+<small>Kedi Yönetim Sistemi</small>
+</div>
+</div>
+<button class="btn btn-primary" onclick="openCatModal()">＋ Hızlı Kedi Ekle</button>
+</div>
+<div class="hero-title-area">
+<h2>♥ Merhaba <span>Volkan Abi</span> ♥</h2>
+</div>
+<!-- 6'lı Kedi Siluetli Raf Özellikleri -->
+<div class="cat-shelf">
+<div class="shelf-card c-teal" onclick="showSection('cats')">
+<div class="shelf-icon">📋</div>
+<h4>Kedi Listesi</h4>
+<p>Tüm kedilerinizi görüntüleyin ve yönetin.</p>
+<div class="shelf-btn">➔</div>
+</div>
+<div class="shelf-card c-cream" onclick="showSection('tasks')">
+<div class="shelf-icon">🩺</div>
+<h4>Sağlık Geçmişi</h4>
+<p>Aşılar, kontroller ve tedavi geçmişini inceleyin.</p>
+<div class="shelf-btn">➔</div>
+</div>
+<div class="shelf-card c-coral" onclick="showSection('tasks')">
+<div class="shelf-icon">🔔</div>
+<h4>Günlük Hatırlatma</h4>
+<p>Aşı, ilaç ve bakım hatırlatmalarını yönetin.</p>
+<div class="shelf-btn">➔</div>
+</div>
+<div class="shelf-card c-mint" onclick="showSection('tasks')">
+<div class="shelf-icon">🐟</div>
+<h4>Mama ve Diyet</h4>
+<p>Beslenme planlarını oluşturun ve takip edin.</p>
+<div class="shelf-btn">➔</div>
+</div>
+<div class="shelf-card c-yellow" onclick="showSection('cats')">
+<div class="shelf-icon">🔲</div>
+<h4>QR Kartları</h4>
+<p>Kedilerinize özel QR kartları oluşturun.</p>
+<div class="shelf-btn">➔</div>
+</div>
+<div class="shelf-card c-sage" onclick="showSection('reports')">
+<div class="shelf-icon">📊</div>
+<h4>Raporlar</h4>
+<p>Sağlık, beslenme ve bakım özetlerini görün.</p>
+<div class="shelf-btn">➔</div>
+</div>
+</div>
+</div>
+<!-- Alt İstatistik ve Bugünün İşlemleri Panelleri -->
+<div class="widgets-grid">
+<!-- Sol: Hızlı Bakış -->
+<div class="widget-box">
+<div class="widget-head">
+<h3>🐾 Hızlı Bakış</h3>
+<button class="btn btn-sm" onclick="exportData()">⬇️ Yedekle</button>
+</div>
+<div class="quick-stats">
+<div class="q-stat">
+<div class="q-stat-icon" style="background:#e3f5f3; color:#1c645e;">🐱</div>
+<div>
+<div class="val" id="statTotal">0</div>
+<div class="lbl">Toplam Kedi</div>
+</div>
+</div>
+<div class="q-stat">
+<div class="q-stat-icon" style="background:#fcebe8; color:#a83626;">💉</div>
+<div>
+<div class="val" id="statTreatment">0</div>
+<div class="lbl">Aktif Tedavi</div>
+</div>
+</div>
+<div class="q-stat">
+<div class="q-stat-icon" style="background:#fef8e3; color:#87640a;">🔔</div>
+<div>
+<div class="val" id="statToday">0</div>
+<div class="lbl">Bugünkü İşlem</div>
+</div>
+</div>
+<div class="q-stat">
+<div class="q-stat-icon" style="background:#ecf3ee; color:#2e5c40;">⚠️</div>
+<div>
+<div class="val" id="statOverdue">0</div>
+<div class="lbl">Gecikenler</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sağ: Bugünkü Hatırlatmalar -->
+<div class="widget-box">
+<div class="widget-head">
+<h3>🐟 Bugünkü Hatırlatmalar</h3>
+<button class="btn btn-sm btn-primary" onclick="openTaskModal()">＋ İşlem Ekle</button>
+</div>
+<div class="task-list" id="dashboardTasks"></div>
+<div style="text-align:center; margin-top:16px;">
+<button class="btn btn-primary btn-sm" onclick="showSection('tasks')">Tümünü Görüntüle ➔</button>
+</div>
+</div>
+</div>
+<!-- Öne Çıkan Kediler -->
+<div class="widget-box" style="margin-top:24px;">
+<div class="widget-head">
+<h3>🐱 Kedilerim</h3>
+<button class="btn btn-sm" onclick="showSection('cats')">Tümünü Gör</button>
+</div>
+<div class="cats" id="dashboardCats"></div>
+</div>
+</section>
+<!-- === KEDİLER SEKMESİ === -->
+<section class="section" id="catsSection">
+<div class="topbar"><div><h2>Kediler</h2><p>İsim, mikroçip, hastalık veya konuma göre hızlı arayın.</p></div><div class="top-actions"><button class="btn btn-primary" onclick="openCatModal()">＋ Yeni Kedi</button></div></div>
+<div class="panel"><div class="panel-body">
+<div class="search-row"><input class="input" id="catSearch" oninput="renderCats()" placeholder="🔎 Kedi ara..."/><select class="select" id="statusFilter" onchange="renderCats()"><option value="">Tüm durumlar</option><option>Bakımda</option><option>Sahiplendirilebilir</option><option>Karanti̇nada</option><option>Veterinerde</option><option>Sahiplendirildi</option><option>Kayıp</option><option>Vefat</option></select><select class="select" id="genderFilter" onchange="renderCats()"><option value="">Tüm cinsiyetler</option><option>Dişi</option><option>Erkek</option><option>Bilinmiyor</option></select></div>
+<div class="cats" id="catsGrid"></div>
+</div></div>
+</section>
+<!-- === TAKVİM & SAĞLIK SEKMESİ === -->
+<section class="section" id="tasksSection">
+<div class="topbar"><div><h2>Sağlık ve Takvim</h2><p>İlaç, aşı, parazit uygulaması ve veteriner kontrolleri.</p></div><div class="top-actions"><button class="btn btn-primary" onclick="openTaskModal()">＋ İşlem Ekle</button></div></div>
+<div class="panel"><div class="panel-body"><div class="search-row"><input class="input" id="taskSearch" oninput="renderTasks()" placeholder="🔎 İşlem veya kedi ara..."/><select class="select" id="taskTypeFilter" onchange="renderTasks()"><option value="">Tüm işlem türleri</option><option>İlaç</option><option>Aşı</option><option>İç Parazit</option><option>Dış Parazit</option><option>Veteriner Kontrolü</option><option>Kilo Ölçümü</option><option>Kısırlaştırma</option><option>Diğer</option></select><select class="select" id="taskStatusFilter" onchange="renderTasks()"><option value="">Tüm durumlar</option><option value="pending">Bekleyen</option><option value="done">Tamamlanan</option><option value="overdue">Geciken</option></select></div><div class="table-wrap"><table class="table"><thead><tr><th>Tarih</th><th>Kedi</th><th>İşlem</th><th>Detay</th><th>Durum</th><th>İşlem</th></tr></thead><tbody id="taskTableBody"></tbody></table></div></div></div>
+</section>
+<!-- === RAPORLAR SEKMESİ === -->
+<section class="section" id="reportsSection">
+<div class="topbar"><div><h2>Raporlar</h2><p>Bakım durumunu özetleyin ve verilerinizi dışa aktarın.</p></div></div>
+<div class="grid stats">
+<div class="stat"><div><div class="value" id="repNeutered">0</div><div class="label">Kısırlaştırılmış</div></div><div class="icon">✅</div></div>
+<div class="stat"><div><div class="value" id="repNotNeutered">0</div><div class="label">Kısırlaştırılmamış</div></div><div class="icon">✂️</div></div>
+<div class="stat"><div><div class="value" id="repVaccMissing">0</div><div class="label">Aşı kaydı olmayan</div></div><div class="icon">💉</div></div>
+<div class="stat"><div><div class="value" id="repAdoptable">0</div><div class="label">Sahiplendirilebilir</div></div><div class="icon">🏡</div></div>
+</div>
+<div class="panel"><div class="panel-head"><h3>Hızlı Raporlar</h3></div><div class="panel-body"><div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))"><button class="btn" onclick="downloadCatsCSV()">📄 Kedi Listesini Excel/CSV İndir</button><button class="btn" onclick="downloadTasksCSV()">📄 Sağlık Takvimini CSV İndir</button><button class="btn" onclick="printAllCats()">🖨️ Tüm Kedileri Yazdır</button><button class="btn" onclick="exportData()">💾 Tam Yedek Al</button></div></div></div>
+</section>
+<!-- === AYARLAR SEKMESİ === -->
+<section class="section" id="settingsSection">
+<div class="topbar"><div><h2>Ayarlar</h2><p>Yedekleme, geri yükleme, örnek veri ve tema ayarları.</p></div></div>
+<div class="grid" style="grid-template-columns:1fr;gap:16px">
+<div class="panel"><div class="panel-head"><h3>Gündüz / Gece Tasarımı</h3></div><div class="panel-body"><div class="theme-preview"><div class="theme-card day"><strong>☀️ Gündüz Modu</strong><div>Yumuşak krem, turuncu ve sıcak pastel tonlar. Gündüz kullanımı için ferah görünüm.</div><button class="btn btn-primary" onclick="setTheme('day')">Bu Temayı Kullan</button></div><div class="theme-card night"><strong>🌙 Gece Modu</strong><div>Lacivert, altın ve koyu tonlar. Gece kullanımı için sakin ve şık görünüm.</div><button class="btn btn-primary" onclick="setTheme('night')">Bu Temayı Kullan</button></div></div><p class="help" style="margin-top:15px">Seçtiğiniz tema aynı tarayıcıda hatırlanır. Ana sayfada da üst kısımdaki butonlardan anında geçiş yapabilirsiniz.</p></div></div>
+<div class="panel"><div class="panel-head"><h3>Bildirim ve Güvenlik</h3></div><div class="panel-body">
+<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr))">
+<button class="btn" onclick="requestNotificationPermission()">🔔 Tarayıcı Bildirimlerini Aç</button>
+<button class="btn" onclick="checkDueNotifications(true)">🧪 Yaklaşan Uyarıları Kontrol Et</button>
+<button class="btn" onclick="setLocalPin()">🔐 Yerel PIN Ayarla</button>
+<button class="btn" onclick="clearLocalPin()">🔓 PIN'i Kaldır</button>
+</div>
+<p class="help" style="margin-top:12px">Bildirimler yalnızca bu sayfa açıkken veya tarayıcı izin verdiğinde çalışır. PIN, bu cihazdaki uygulamayı açarken temel koruma sağlar.</p>
+</div></div>
+<div class="panel"><div class="panel-head"><h3>Bulut Senkronizasyonu</h3></div><div class="panel-body">
+<div class="form-grid">
+<div class="form-group full"><label>Firebase Yapılandırması</label><textarea class="textarea" id="firebaseConfigBox" placeholder="Firebase config JSON buraya yapıştırılabilir. Bu sürümde yapılandırma saklanır; gerçek senkronizasyon için proje bilgileri gerekir." rows="4"></textarea></div>
+<div class="form-group"><button class="btn" onclick="saveFirebaseConfig()">☁️ Yapılandırmayı Kaydet</button></div>
+<div class="form-group"><button class="btn" onclick="clearFirebaseConfig()">🧹 Yapılandırmayı Temizle</button></div>
+</div>
+<p class="help" style="margin-top:12px">Güvenlik nedeniyle gerçek Firebase bağlantısı proje anahtarları olmadan etkinleştirilemez. Yapılandırma alanı ileride bağlantı kurulması için hazırdır.</p>
+</div></div>
+<div class="panel"><div class="panel-head"><h3>Veri Yönetimi</h3></div><div class="panel-body"><div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))"><button class="btn" onclick="exportData()">⬇️ JSON Yedeği İndir</button><label class="btn">⬆️ Yedeği Geri Yükle<input accept="application/json" hidden="" onchange="importData(event)" type="file"/></label><button class="btn" onclick="loadDemoData()">🧪 Örnek Verileri Yükle</button><button class="btn btn-danger" onclick="resetAllData()">🗑️ Tüm Verileri Sil</button></div><p class="help" style="margin-top:15px">Bu sürümde veriler yalnızca kullandığınız tarayıcıda tutulur. Başka cihazda kullanmak için yedek dosyasını içe aktarabilirsiniz.</p></div></div>
+</div>
+</section>
+<section class="section" id="profileSection"></section>
+</main>
+<!-- === SAĞ KEDİ KULAKLI MENÜ (Görseldeki Tasarım) === -->
+<aside class="sidebar">
+<div class="miyav-bubble">Miyavv ♥</div>
+<nav class="nav" id="desktopNav">
+<button class="active" data-section="dashboard">
+<span class="nav-icon">🏠</span>Ana Sayfa
+      </button>
+<button data-section="cats">
+<span class="nav-icon">🐱</span>Kedilerim
+      </button>
+<button data-section="tasks">
+<span class="nav-icon">🗓️</span>Takvim
+      </button>
+<button data-section="reports">
+<span class="nav-icon">📊</span>Raporlar
+      </button>
+<button data-section="settings">
+<span class="nav-icon">⚙️</span>Ayarlar
+      </button>
+</nav>
+</aside>
+</div>
+<!-- === MODALLAR === -->
+<!-- Kedi Ekleleme Modalı -->
+<div class="modal-backdrop" id="catModal"><div class="modal"><div class="modal-head"><h3 id="catModalTitle">Yeni Kedi Ekle</h3><button class="icon-btn" onclick="closeModal('catModal')">✕</button></div><form id="catForm"><div class="modal-body"><input id="catId" type="hidden"/><input id="catPhotoData" type="hidden"/><div class="form-grid">
+<div class="form-group full"><label>Fotoğraf ve Ana Sayfa Kadrajı</label><div class="photo-editor"><div><div class="photo-stage" id="photoStage"><canvas height="480" id="photoCanvas" width="640"></canvas><div class="photo-empty" id="photoEmpty"><div><span class="big">📷</span>Bir fotoğraf seçin.<br/>Ana sayfada görünecek alan burada gösterilir.</div></div><div class="photo-guide" id="photoGuide"></div></div><div class="help" style="margin-top:7px">Fotoğrafı fareyle veya parmağınızla sürükleyerek kediyi kadrajın ortasına alın.</div></div><div class="photo-controls"><label class="btn photo-file-label">📁 Fotoğraf Seç / Değiştir<input accept="image/*" hidden="" id="catPhoto" onchange="handlePhoto(event)" type="file"/></label><div class="control"><label>Yakınlaştırma: <span id="photoZoomValue">100%</span></label><input id="photoZoom" max="3" min="1" oninput="updatePhotoZoom(this.value)" step="0.01" type="range" value="1"/></div><div class="control"><label>Yatay Konum</label><input id="photoPanX" max="0" min="0" oninput="updatePhotoPan('x',this.value)" step="1" type="range" value="0"/></div><div class="control"><label>Dikey Konum</label><input id="photoPanY" max="0" min="0" oninput="updatePhotoPan('y',this.value)" step="1" type="range" value="0"/></div><div class="photo-control-row"><button class="btn btn-sm" onclick="rotatePhoto(-90)" type="button">↶ Sola Döndür</button><button class="btn btn-sm" onclick="rotatePhoto(90)" type="button">↷ Sağa Döndür</button><button class="btn btn-sm" onclick="resetPhotoEditor()" type="button">⟲ Kadrajı Sıfırla</button><button class="btn btn-sm" onclick="removePhoto()" type="button">🗑️ Fotoğrafı Kaldır</button></div><div class="photo-preview-note">Bu önizlemede görünen 4:3 kadraj, ana sayfadaki kedi kartına aynen kaydedilir.</div></div></div></div>
+<div class="form-group"><label>Kedi Adı *</label><input class="input" id="catName" placeholder="Örn. Pamuk" required=""/></div>
+<div class="form-group"><label>Cinsiyet</label><select class="select" id="catGender"><option>Bilinmiyor</option><option>Dişi</option><option>Erkek</option></select></div>
+<div class="form-group"><label>Doğum / Tahmini Doğum Tarihi</label><input class="input" id="catBirth" type="date"/></div>
+<div class="form-group"><label>Renk / Ayırt Edici Özellik</label><input class="input" id="catColor" placeholder="Tekir, beyaz patili..."/></div>
+<div class="form-group"><label>Konum</label><input class="input" id="catLocation" placeholder="Ev, bahçe, A bölgesi..."/></div>
+<div class="form-group"><label>Mikroçip No</label><input class="input" id="catChip" placeholder="Varsa mikroçip numarası"/></div>
+<div class="form-group"><label>Durum</label><select class="select" id="catStatus"><option>Bakımda</option><option>Sahiplendirilebilir</option><option>Karanti̇nada</option><option>Veterinerde</option><option>Sahiplendirildi</option><option>Kayıp</option><option>Vefat</option></select></div>
+<div class="form-group"><label>Kısırlaştırma</label><select class="select" id="catNeutered"><option value="unknown">Bilinmiyor</option><option value="yes">Kısırlaştırıldı</option><option value="no">Kısırlaştırılmadı</option></select></div>
+<div class="form-group"><label>Son Kilo (kg)</label><input class="input" id="catWeight" min="0" placeholder="4.2" step="0.1" type="number"/></div>
+<div class="form-group"><label>FIV Testi</label><select class="select" id="catFiv"><option>Yapılmadı</option><option>Negatif</option><option>Pozitif</option></select></div>
+<div class="form-group"><label>FeLV Testi</label><select class="select" id="catFelv"><option>Yapılmadı</option><option>Negatif</option><option>Pozitif</option></select></div>
+<div class="form-group full"><label>Alerjiler / Kritik Uyarılar</label><input class="input" id="catAlerts" placeholder="İlaç alerjisi, özel durum..."/></div>
+<div class="form-group full"><label>Kronik Hastalıklar</label><input class="input" id="catChronic" placeholder="Böbrek hastalığı, diyabet..."/></div>
+<div class="form-group full"><label>Mama / Diyet Bilgisi</label><input class="input" id="catDiet" placeholder="Böbrek diyeti, yavru kedi maması..."/></div>
+<div class="form-group full"><label>Genel Not</label><textarea class="textarea" id="catNotes" placeholder="Karakteri, bakım notları, bulunduğu yerin ayrıntıları..." rows="4"></textarea></div>
+</div></div><div class="modal-foot"><button class="btn" onclick="closeModal('catModal')" type="button">Vazgeç</button><button class="btn btn-primary" type="submit">Kaydet</button></div></form></div></div>
+<!-- Sağlık İşlemi Modalı -->
+<div class="modal-backdrop" id="taskModal"><div class="modal" style="width:min(650px,100%)"><div class="modal-head"><h3 id="taskModalTitle">Sağlık İşlemi Ekle</h3><button class="icon-btn" onclick="closeModal('taskModal')">✕</button></div><form id="taskForm"><div class="modal-body"><input id="taskId" type="hidden"/><div class="form-grid">
+<div class="form-group"><label>Kedi *</label><select class="select" id="taskCat" required=""></select></div>
+<div class="form-group"><label>İşlem Türü *</label><select class="select" id="taskType" required=""><option>İlaç</option><option>Aşı</option><option>İç Parazit</option><option>Dış Parazit</option><option>Veteriner Kontrolü</option><option>Kilo Ölçümü</option><option>Kısırlaştırma</option><option>Diğer</option></select></div>
+<div class="form-group"><label>Tarih *</label><input class="input" id="taskDate" required="" type="date"/></div>
+<div class="form-group"><label>Saat</label><input class="input" id="taskTime" type="time"/></div>
+<div class="form-group full"><label>İşlem Başlığı *</label><input class="input" id="taskTitle" placeholder="Örn. Karma aşı 1. doz" required=""/></div>
+<div class="form-group full"><label>Veteriner Talimatı / Detay</label><textarea class="textarea" id="taskDetail" placeholder="İlaç dozu, kullanım şekli veya kontrol notu..." rows="3"></textarea></div>
+<div class="form-group"><label>Doz / Miktar</label><input class="input" id="taskDose" placeholder="Örn. 0,5 ml veya 1 tablet"/></div>
+<div class="form-group"><label>Uygulayan / Sorumlu</label><input class="input" id="taskAssignedTo" placeholder="Örn. Volkan"/></div>
+<div class="form-group"><label>Tekrar</label><select class="select" id="taskRepeat"><option value="none">Tek sefer</option><option value="daily">Her gün</option><option value="weekly">Her hafta</option><option value="monthly">Her ay</option><option value="yearly">Her yıl</option></select></div>
+<div class="form-group"><label>Durum</label><select class="select" id="taskDone"><option value="false">Bekliyor</option><option value="true">Tamamlandı</option></select></div>
+</div></div><div class="modal-foot"><button class="btn" onclick="closeModal('taskModal')" type="button">Vazgeç</button><button class="btn btn-primary" type="submit">Kaydet</button></div></form></div></div>
+<div class="modal-backdrop" id="healthModal"><div class="modal" style="width:min(650px,100%)"><div class="modal-head"><h3>Sağlık Geçmişine Kayıt Ekle</h3><button class="icon-btn" onclick="closeModal('healthModal')">✕</button></div><form id="healthForm"><div class="modal-body"><input id="healthCatId" type="hidden"/><div class="form-grid">
+<div class="form-group"><label>Tarih *</label><input class="input" id="healthDate" required="" type="date"/></div>
+<div class="form-group"><label>Kayıt Türü *</label><select class="select" id="healthType"><option>Muayene</option><option>Teşhis</option><option>İlaç Tedavisi</option><option>Aşı</option><option>Ameliyat</option><option>Kısırlaştırma</option><option>Test / Tahlil</option><option>Kilo</option><option>Yaralanma</option><option>Diğer</option></select></div>
+<div class="form-group full"><label>Başlık *</label><input class="input" id="healthTitle" placeholder="Örn. Üst solunum yolu muayenesi" required=""/></div>
+<div class="form-group full"><label>Açıklama</label><textarea class="textarea" id="healthDetail" placeholder="Veteriner görüşü, uygulanan tedavi, sonuç..." rows="4"></textarea></div>
+<div class="form-group"><label>Kilo (kg)</label><input class="input" id="healthWeight" min="0" step="0.1" type="number"/></div>
+<div class="form-group"><label>Veteriner / Klinik</label><input class="input" id="healthVet"/></div>
+</div></div><div class="modal-foot"><button class="btn" onclick="closeModal('healthModal')" type="button">Vazgeç</button><button class="btn btn-primary" type="submit">Kaydet</button></div></form></div></div><div class="modal-backdrop" id="pinModal"><div class="modal" style="width:min(420px,100%)"><div class="modal-head"><h3>🔐 PatiTakip Kilidi</h3></div><div class="modal-body"><div class="form-group"><label>PIN</label><input class="input" id="pinUnlockInput" inputmode="numeric" maxlength="8" placeholder="PIN girin" type="password"/></div><p class="help">Bu koruma yalnızca bu cihaz ve tarayıcı için geçerlidir.</p></div><div class="modal-foot"><button class="btn btn-primary" onclick="unlockWithPin()">Kilidi Aç</button></div></div></div><div class="toast" id="toast"></div>
+<script>
+
+'use strict';
+const STORAGE_KEY='patitakip_v2';
+const LEGACY_STORAGE_KEYS=['patitakip_v1'];
+let db={cats:[],tasks:[],health:[],settings:{}};
+let currentProfileId=null;
+const photoEditor={img:null,zoom:1,panX:0,panY:0,rotation:0,dragging:false,lastX:0,lastY:0};
+
+function uid(prefix='id'){return prefix+'_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,8)}
+function today(){return new Date().toISOString().slice(0,10)}
+function esc(v=''){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+function load(){try{let raw=localStorage.getItem(STORAGE_KEY);if(!raw){for(const key of LEGACY_STORAGE_KEYS){raw=localStorage.getItem(key);if(raw)break}}if(raw)db={...db,...JSON.parse(raw)}}catch(e){console.error(e);toast('Veriler okunamadı.')} normalize();const savedTheme=(db.settings&&db.settings.theme)||localStorage.getItem('patitakip-theme')||'day';applyTheme(savedTheme,false);renderAll();updateHeroDate()}
+function normalize(){db.cats=Array.isArray(db.cats)?db.cats:[];db.tasks=Array.isArray(db.tasks)?db.tasks:[];db.health=Array.isArray(db.health)?db.health:[]}
+function autoTheme(){const h=new Date().getHours();return(h>=7&&h<19)?'day':'night'}
+function applyTheme(theme,persist=true){const t=theme==='night'?'night':'day';document.body.setAttribute('data-theme',t);const meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.setAttribute('content',t==='night'?'#09162f':'#f7efe0');const dayBtn=document.getElementById('themeDayChip'),nightBtn=document.getElementById('themeNightChip');if(dayBtn)dayBtn.classList.toggle('active',t==='day');if(nightBtn)nightBtn.classList.toggle('active',t==='night');if(db.settings){db.settings.theme=t}if(persist){try{localStorage.setItem('patitakip-theme',t)}catch(e){}}}
+function setTheme(theme){applyTheme(theme,true);save();toast(theme==='night'?'Gece modu aktifleştirildi.':'Gündüz modu aktifleştirildi.')}
+function updateHeroDate(){const now=new Date();const opts={weekday:'long',day:'numeric',month:'long',year:'numeric'};const main=now.toLocaleDateString('tr-TR',opts);const sub=now.toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})+' itibarıyla bakım özeti';const a=document.getElementById('heroDateText'),b=document.getElementById('heroDateSub');if(a)a.textContent=main;if(b)b.textContent=sub}
+
+function save(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(db));renderAll()}catch(err){console.error(err);toast('Tarayıcı depolama alanı doldu. Eski veya yüksek boyutlu fotoğrafları küçültün ve JSON yedeği alın.')}}
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2300)}
+function fmtDate(d){if(!d)return'-';const x=new Date(d+'T12:00:00');return x.toLocaleDateString('tr-TR')}
+function ageText(b){if(!b)return'Yaş bilinmiyor';const birth=new Date(b+'T12:00:00'),now=new Date();let months=(now.getFullYear()-birth.getFullYear())*12+now.getMonth()-birth.getMonth();if(now.getDate()<birth.getDate())months--;if(months<0)return'Yaş bilinmiyor';if(months<12)return months+' aylık';const y=Math.floor(months/12),m=months%12;return y+' yaş'+(m?' '+m+' ay':'')}
+function catById(id){return db.cats.find(c=>c.id===id)}
+function isOverdue(t){return !t.done&&t.date<today()}
+function isToday(t){return t.date===today()}
+function activeTreatmentCatIds(){return new Set(db.tasks.filter(t=>!t.done&&t.type==='İlaç'&&t.date>=today()).map(t=>t.catId))}
+function nextRepeatDate(date,repeat){if(!date)return null;const d=new Date(date+'T12:00:00');if(repeat==='daily')d.setDate(d.getDate()+1);else if(repeat==='weekly')d.setDate(d.getDate()+7);else if(repeat==='monthly')d.setMonth(d.getMonth()+1);else if(repeat==='yearly')d.setFullYear(d.getFullYear()+1);else return null;return d.toISOString().slice(0,10)}
+function taskExtraText(t){return [t.dose?('Doz: '+t.dose):'',t.assignedTo?('Sorumlu: '+t.assignedTo):''].filter(Boolean).join(' · ')}
+function requestNotificationPermission(){if(!('Notification'in window))return toast('Bu tarayıcı bildirimleri desteklemiyor.');Notification.requestPermission().then(p=>toast(p==='granted'?'Bildirim izni verildi.':'Bildirim izni verilmedi.'))}
+function checkDueNotifications(manual=false){const due=db.tasks.filter(t=>!t.done&&(t.date<today()||t.date===today())).slice(0,6);if(!due.length){if(manual)toast('Bugün veya gecikmiş işlem yok.');return}if('Notification'in window&&Notification.permission==='granted'){due.forEach(t=>{const c=catById(t.catId);new Notification('PatiTakip: '+(c?.name||'Kedi'),{body:(t.date<today()?'Gecikmiş: ':'Bugün: ')+t.title+(t.time?' · '+t.time:''),tag:t.id})});if(manual)toast(due.length+' bildirim gösterildi.')}else if(manual){toast(due.length+' yaklaşan/gecikmiş işlem var. Bildirim izni kapalı.')}}
+function setLocalPin(){const p=prompt('4-8 haneli PIN belirleyin:');if(!p)return;if(!/^\d{4,8}$/.test(p))return toast('PIN 4-8 rakam olmalıdır.');localStorage.setItem('patitakip_pin',btoa(p));toast('Yerel PIN kaydedildi. Bir sonraki açılışta sorulacak.')} 
+function clearLocalPin(){localStorage.removeItem('patitakip_pin');toast('Yerel PIN kaldırıldı.')} 
+function checkPinLock(){if(localStorage.getItem('patitakip_pin'))openModal('pinModal')}
+function unlockWithPin(){const v=document.getElementById('pinUnlockInput').value;try{if(btoa(v)===localStorage.getItem('patitakip_pin')){closeModal('pinModal');document.getElementById('pinUnlockInput').value='';toast('Kilit açıldı.')}else toast('PIN yanlış.')}catch(e){toast('PIN doğrulanamadı.')}}
+function saveFirebaseConfig(){const el=document.getElementById('firebaseConfigBox');if(!el)return;try{const txt=el.value.trim();if(txt)JSON.parse(txt);localStorage.setItem('patitakip_firebase_config',txt);toast('Firebase yapılandırması kaydedildi.')}catch(e){toast('Geçerli bir JSON yapılandırması girin.')}}
+function clearFirebaseConfig(){localStorage.removeItem('patitakip_firebase_config');const el=document.getElementById('firebaseConfigBox');if(el)el.value='';toast('Firebase yapılandırması temizlendi.')} 
+function loadAdvancedSettings(){const el=document.getElementById('firebaseConfigBox');if(el)el.value=localStorage.getItem('patitakip_firebase_config')||''}
+function weightChartSvg(health,currentWeight){const pts=health.filter(h=>h.weight&&Number(h.weight)>0).sort((a,b)=>a.date.localeCompare(b.date)).slice(-12);if(currentWeight&&(!pts.length||Number(pts[pts.length-1].weight)!==Number(currentWeight)))pts.push({date:today(),weight:Number(currentWeight)});if(pts.length<2)return '<div class="empty">Kilo grafiği için en az iki kilo kaydı gerekir.</div>';const vals=pts.map(p=>Number(p.weight)),min=Math.min(...vals),max=Math.max(...vals),range=Math.max(.5,max-min),w=560,h=180,pad=28;const coords=pts.map((p,i)=>{const x=pad+i*(w-2*pad)/Math.max(1,pts.length-1);const y=h-pad-((Number(p.weight)-min)/range)*(h-2*pad);return{x,y,p}});const poly=coords.map(o=>o.x+','+o.y).join(' ');return `<svg viewBox="0 0 ${w} ${h}" style="width:100%;height:auto;background:var(--panel-2);border:1px solid var(--line);border-radius:16px"><polyline fill="none" stroke="var(--primary)" stroke-width="4" points="${poly}"/>${coords.map(o=>`<circle cx="${o.x}" cy="${o.y}" r="5" fill="var(--primary)"><title>${fmtDate(o.p.date)} · ${o.p.weight} kg</title></circle>`).join('')}<text x="${pad}" y="18" fill="var(--muted)" font-size="12">${max.toFixed(1)} kg</text><text x="${pad}" y="${h-6}" fill="var(--muted)" font-size="12">${min.toFixed(1)} kg</text></svg>`}
+
+
+function showSection(name){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));const target=document.getElementById(name+'Section');if(target)target.classList.add('active');document.querySelectorAll('[data-section]').forEach(b=>b.classList.toggle('active',b.dataset.section===name));if(name==='profile')return;window.scrollTo({top:0,behavior:'smooth'});renderAll()}
+document.querySelectorAll('[data-section]').forEach(b=>b.addEventListener('click',()=>showSection(b.dataset.section)));
+
+function renderAll(){renderDashboard();renderCats();renderTasks();renderReports();refreshCatOptions();if(currentProfileId&&document.getElementById('profileSection').classList.contains('active'))renderProfile(currentProfileId)}
+function renderDashboard(){
+  const activeTreat=db.tasks.filter(t=>!t.done&&t.type==='İlaç').length;
+  const todayPending=db.tasks.filter(t=>t.date===today()&&!t.done).sort((a,b)=>(a.time||'99:99').localeCompare(b.time||'99:99'));
+  const overdue=db.tasks.filter(isOverdue).length;
+  const statTotal=document.getElementById('statTotal');
+  const statToday=document.getElementById('statToday');
+  const statTreatment=document.getElementById('statTreatment');
+  const statOverdue=document.getElementById('statOverdue');
+  if(statTotal)statTotal.textContent=db.cats.length;
+  if(statToday)statToday.textContent=todayPending.length;
+  if(statTreatment)statTreatment.textContent=activeTreat;
+  if(statOverdue)statOverdue.textContent=overdue;
+  const catsEl=document.getElementById('dashboardCats');
+  if(catsEl){
+    const cats=db.cats.slice().sort((a,b)=>(b.updatedAt||'').localeCompare(a.updatedAt||'')).slice(0,4);
+    catsEl.innerHTML=cats.length?cats.map(catCard).join(''):'<div class="empty" style="grid-column:1/-1">Henüz kedi eklenmedi.<br><button class="btn btn-primary" style="margin-top:12px" onclick="openCatModal()">İlk Kediyi Ekle</button></div>';
+  }
+  const tasksEl=document.getElementById('dashboardTasks');
+  if(tasksEl){
+    const tasks=db.tasks.filter(t=>!t.done).sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||''))).slice(0,5);
+    tasksEl.innerHTML=tasks.length?tasks.map(taskCard).join(''):'<div class="empty">Yapılacak işlem yok.</div>';
+  }
+}
+function catCard(c){const treat=activeTreatmentCatIds().has(c.id);return `<article class="cat-card" onclick="openProfile('${c.id}')"><div class="cat-photo">${c.photo?`<img src="${c.photo}" alt="${esc(c.name)}">`:'🐱'}<span class="status-dot">${esc(c.status||'Bakımda')}</span></div><div class="cat-info"><div class="cat-title"><h4>${esc(c.name)}</h4><span>${c.gender==='Dişi'?'♀️':c.gender==='Erkek'?'♂️':'🐾'}</span></div><div class="cat-meta">${ageText(c.birth)} · ${esc(c.location||'Konum yok')}</div><div class="chips">${treat?'<span class="chip warn">Aktif tedavi</span>':''}${c.alerts?'<span class="chip danger">Kritik uyarı</span>':''}${c.neutered==='yes'?'<span class="chip good">Kısır</span>':'<span class="chip">Kısır değil/bilinmiyor</span>'}</div></div></article>`}
+function taskCard(t){const c=catById(t.catId);const cls=isOverdue(t)?'overdue':isToday(t)?'today':'';return `<div class="task ${cls}"><div><strong>${esc(c?.name||'Silinmiş kedi')} · ${esc(t.title)}</strong><small>${fmtDate(t.date)} ${esc(t.time||'')} · ${esc(t.type)}${taskExtraText(t)?' · '+esc(taskExtraText(t)):''}</small></div><button class="btn btn-sm" onclick="event.stopPropagation();toggleTask('${t.id}')">✓</button></div>`}
+function renderCats(){const q=(document.getElementById('catSearch')?.value||'').toLocaleLowerCase('tr-TR'),status=document.getElementById('statusFilter')?.value||'',gender=document.getElementById('genderFilter')?.value||'';const list=db.cats.filter(c=>{const hay=[c.name,c.chip,c.color,c.location,c.chronic,c.alerts,c.diet,c.notes].join(' ').toLocaleLowerCase('tr-TR');return(!q||hay.includes(q))&&(!status||c.status===status)&&(!gender||c.gender===gender)}).sort((a,b)=>a.name.localeCompare(b.name,'tr'));document.getElementById('catsGrid').innerHTML=list.length?list.map(catCard).join(''):'<div class="empty" style="grid-column:1/-1"><div class="big">🔎</div>Aramaya uygun kedi bulunamadı.</div>'}
+function renderTasks(){const q=(document.getElementById('taskSearch')?.value||'').toLocaleLowerCase('tr-TR'),type=document.getElementById('taskTypeFilter')?.value||'',status=document.getElementById('taskStatusFilter')?.value||'';const list=db.tasks.filter(t=>{const c=catById(t.catId);const hay=[t.title,t.detail,t.type,c?.name].join(' ').toLocaleLowerCase('tr-TR');let ok=!q||hay.includes(q);if(type)ok=ok&&t.type===type;if(status==='pending')ok=ok&&!t.done&&!isOverdue(t);if(status==='done')ok=ok&&t.done;if(status==='overdue')ok=ok&&isOverdue(t);return ok}).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));document.getElementById('taskTableBody').innerHTML=list.length?list.map(t=>{const c=catById(t.catId);const badge=t.done?'<span class="badge badge-green">Tamamlandı</span>':isOverdue(t)?'<span class="badge badge-red">Gecikti</span>':isToday(t)?'<span class="badge badge-yellow">Bugün</span>':'<span class="badge badge-gray">Bekliyor</span>';return `<tr><td>${fmtDate(t.date)}<br><small>${esc(t.time||'')}</small></td><td><button class="btn btn-sm" onclick="openProfile('${t.catId}')">${esc(c?.name||'Silinmiş')}</button></td><td>${esc(t.type)}</td><td><strong>${esc(t.title)}</strong><br><small>${esc(t.detail||'')}${taskExtraText(t)?' · '+esc(taskExtraText(t)):''}</small></td><td>${badge}</td><td><button class="btn btn-sm" onclick="toggleTask('${t.id}')">${t.done?'Geri Al':'Tamamla'}</button> <button class="btn btn-sm" onclick="editTask('${t.id}')">Düzenle</button> <button class="btn btn-sm" onclick="deleteTask('${t.id}')">Sil</button></td></tr>`}).join(''):'<tr><td colspan="6" class="empty">Kayıt bulunamadı.</td></tr>'}
+function renderReports(){const neut=db.cats.filter(c=>c.neutered==='yes').length;document.getElementById('repNeutered').textContent=neut;document.getElementById('repNotNeutered').textContent=db.cats.length-neut;const vaccinated=new Set(db.health.filter(h=>h.type==='Aşı').map(h=>h.catId));document.getElementById('repVaccMissing').textContent=db.cats.filter(c=>!vaccinated.has(c.id)).length;document.getElementById('repAdoptable').textContent=db.cats.filter(c=>c.status==='Sahiplendirilebilir').length}
+function refreshCatOptions(){const el=document.getElementById('taskCat');if(!el)return;const old=el.value;el.innerHTML='<option value="">Kedi seçin</option>'+db.cats.slice().sort((a,b)=>a.name.localeCompare(b.name,'tr')).map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('');if(db.cats.some(c=>c.id===old))el.value=old}
+
+function openCatModal(id=null){document.getElementById('catForm').reset();document.getElementById('catId').value='';document.getElementById('catPhotoData').value='';document.getElementById('catModalTitle').textContent=id?'Kedi Bilgilerini Düzenle':'Yeni Kedi Ekle';clearPhotoEditor(false);if(id){const c=catById(id);if(!c)return;for(const [key,val] of Object.entries(c)){const el=document.getElementById('cat'+key.charAt(0).toUpperCase()+key.slice(1));if(el&&key!=='photo')el.value=val??''}document.getElementById('catId').value=c.id;if(c.photo){document.getElementById('catPhotoData').value=c.photo;loadPhotoIntoEditor(c.photo)}}openModal('catModal')}
+function handlePhoto(e){const file=e.target.files[0];if(!file)return;if(!file.type.startsWith('image/')){toast('Lütfen geçerli bir fotoğraf dosyası seçin.');e.target.value='';return}if(file.size>10*1024*1024){toast('Fotoğraf 10 MB’den küçük olmalıdır.');e.target.value='';return}const r=new FileReader();r.onload=()=>loadPhotoIntoEditor(r.result);r.onerror=()=>toast('Fotoğraf okunamadı.');r.readAsDataURL(file)}
+function loadPhotoIntoEditor(src){const img=new Image();img.onload=()=>{photoEditor.img=img;photoEditor.zoom=1;photoEditor.panX=0;photoEditor.panY=0;photoEditor.rotation=0;document.getElementById('photoEmpty').style.display='none';document.getElementById('photoGuide').style.display='block';syncPhotoControls();drawPhotoEditor();};img.onerror=()=>toast('Fotoğraf yüklenemedi.');img.src=src}
+function clearPhotoEditor(clearSaved=true){photoEditor.img=null;photoEditor.zoom=1;photoEditor.panX=0;photoEditor.panY=0;photoEditor.rotation=0;const canvas=document.getElementById('photoCanvas');if(canvas)canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);const empty=document.getElementById('photoEmpty');if(empty)empty.style.display='grid';const guide=document.getElementById('photoGuide');if(guide)guide.style.display='none';const file=document.getElementById('catPhoto');if(file)file.value='';if(clearSaved){const data=document.getElementById('catPhotoData');if(data)data.value=''}syncPhotoControls()}
+function removePhoto(){clearPhotoEditor(true);toast('Fotoğraf kaldırıldı. Kaydettiğinizde değişiklik uygulanacak.')}
+function resetPhotoEditor(){if(!photoEditor.img)return;photoEditor.zoom=1;photoEditor.panX=0;photoEditor.panY=0;photoEditor.rotation=0;syncPhotoControls();drawPhotoEditor()}
+function updatePhotoZoom(value){if(!photoEditor.img)return;photoEditor.zoom=Math.max(1,Math.min(3,Number(value)||1));clampPhotoPan();syncPhotoControls(false);drawPhotoEditor()}
+function updatePhotoPan(axis,value){if(!photoEditor.img)return;if(axis==='x')photoEditor.panX=Number(value)||0;else photoEditor.panY=Number(value)||0;clampPhotoPan();drawPhotoEditor()}
+function rotatePhoto(amount){if(!photoEditor.img)return;photoEditor.rotation=(photoEditor.rotation+amount+360)%360;photoEditor.panX=0;photoEditor.panY=0;syncPhotoControls();drawPhotoEditor()}
+function photoGeometry(){const canvas=document.getElementById('photoCanvas'),img=photoEditor.img;if(!canvas||!img)return null;const swapped=photoEditor.rotation%180!==0,rw=swapped?img.height:img.width,rh=swapped?img.width:img.height;const base=Math.max(canvas.width/rw,canvas.height/rh),scale=base*photoEditor.zoom;return{canvas,img,scale,displayW:rw*scale,displayH:rh*scale}}
+function clampPhotoPan(){const g=photoGeometry();if(!g)return;const maxX=Math.max(0,(g.displayW-g.canvas.width)/2),maxY=Math.max(0,(g.displayH-g.canvas.height)/2);photoEditor.panX=Math.max(-maxX,Math.min(maxX,photoEditor.panX));photoEditor.panY=Math.max(-maxY,Math.min(maxY,photoEditor.panY))}
+function syncPhotoControls(updateValues=true){const zoom=document.getElementById('photoZoom'),x=document.getElementById('photoPanX'),y=document.getElementById('photoPanY'),label=document.getElementById('photoZoomValue');if(!zoom||!x||!y)return;const g=photoGeometry();const maxX=g?Math.max(0,(g.displayW-g.canvas.width)/2):0,maxY=g?Math.max(0,(g.displayH-g.canvas.height)/2):0;zoom.disabled=!g;x.disabled=!g;y.disabled=!g;x.min=-Math.round(maxX);x.max=Math.round(maxX);y.min=-Math.round(maxY);y.max=Math.round(maxY);if(updateValues){zoom.value=photoEditor.zoom;x.value=Math.round(photoEditor.panX);y.value=Math.round(photoEditor.panY)}if(label)label.textContent=Math.round(photoEditor.zoom*100)+'%'}
+function drawPhotoEditor(){const g=photoGeometry();if(!g)return;clampPhotoPan();const ctx=g.canvas.getContext('2d');ctx.clearRect(0,0,g.canvas.width,g.canvas.height);ctx.save();ctx.translate(g.canvas.width/2+photoEditor.panX,g.canvas.height/2+photoEditor.panY);ctx.rotate(photoEditor.rotation*Math.PI/180);ctx.scale(g.scale,g.scale);ctx.drawImage(g.img,-g.img.width/2,-g.img.height/2);ctx.restore();const out=document.createElement('canvas');out.width=480;out.height=360;out.getContext('2d').drawImage(g.canvas,0,0,out.width,out.height);document.getElementById('catPhotoData').value=out.toDataURL('image/jpeg',.78);syncPhotoControls()}
+function photoPointerPosition(e){const rect=document.getElementById('photoStage').getBoundingClientRect(),point=e.touches?e.touches[0]:e;return{x:(point.clientX-rect.left)*(640/rect.width),y:(point.clientY-rect.top)*(480/rect.height)}}
+function startPhotoDrag(e){if(!photoEditor.img)return;const p=photoPointerPosition(e);photoEditor.dragging=true;photoEditor.lastX=p.x;photoEditor.lastY=p.y;document.getElementById('photoStage').classList.add('dragging');if(e.cancelable)e.preventDefault()}
+function movePhotoDrag(e){if(!photoEditor.dragging||!photoEditor.img)return;const p=photoPointerPosition(e);photoEditor.panX+=p.x-photoEditor.lastX;photoEditor.panY+=p.y-photoEditor.lastY;photoEditor.lastX=p.x;photoEditor.lastY=p.y;clampPhotoPan();drawPhotoEditor();if(e.cancelable)e.preventDefault()}
+function endPhotoDrag(){photoEditor.dragging=false;document.getElementById('photoStage')?.classList.remove('dragging')}
+const photoStage=document.getElementById('photoStage');if(photoStage){photoStage.addEventListener('mousedown',startPhotoDrag);window.addEventListener('mousemove',movePhotoDrag);window.addEventListener('mouseup',endPhotoDrag);photoStage.addEventListener('touchstart',startPhotoDrag,{passive:false});window.addEventListener('touchmove',movePhotoDrag,{passive:false});window.addEventListener('touchend',endPhotoDrag);}
+document.getElementById('catForm').addEventListener('submit',e=>{e.preventDefault();const id=document.getElementById('catId').value||uid('cat');const old=catById(id)||{};const c={...old,id,name:catName.value.trim(),photo:catPhotoData.value,gender:catGender.value,birth:catBirth.value,color:catColor.value.trim(),location:catLocation.value.trim(),chip:catChip.value.trim(),status:catStatus.value,neutered:catNeutered.value,weight:catWeight.value,fiv:catFiv.value,felv:catFelv.value,alerts:catAlerts.value.trim(),chronic:catChronic.value.trim(),diet:catDiet.value.trim(),notes:catNotes.value.trim(),createdAt:old.createdAt||new Date().toISOString(),updatedAt:new Date().toISOString()};if(!c.name)return;const i=db.cats.findIndex(x=>x.id===id);i>=0?db.cats[i]=c:db.cats.push(c);save();closeModal('catModal');toast('Kedi bilgileri kaydedildi.');if(currentProfileId===id)renderProfile(id)})
+
+function openTaskModal(catId=null){if(!db.cats.length){toast('Önce bir kedi eklemelisiniz.');openCatModal();return}document.getElementById('taskForm').reset();document.getElementById('taskId').value='';document.getElementById('taskDate').value=today();refreshCatOptions();if(catId)document.getElementById('taskCat').value=catId;document.getElementById('taskModalTitle').textContent='Sağlık İşlemi Ekle';openModal('taskModal')}
+function editTask(id){const t=db.tasks.find(x=>x.id===id);if(!t)return;openTaskModal();taskId.value=t.id;taskCat.value=t.catId;taskType.value=t.type;taskDate.value=t.date;taskTime.value=t.time||'';taskTitle.value=t.title;taskDetail.value=t.detail||'';taskRepeat.value=t.repeat||'none';taskDone.value=String(!!t.done);taskModalTitle.textContent='Sağlık İşlemini Düzenle'}
+document.getElementById('taskForm').addEventListener('submit',e=>{e.preventDefault();const id=taskId.value||uid('task');const old=db.tasks.find(x=>x.id===id)||{};const t={...old,id,catId:taskCat.value,type:taskType.value,date:taskDate.value,time:taskTime.value,title:taskTitle.value.trim(),detail:taskDetail.value.trim(),dose:(document.getElementById('taskDose')?.value||'').trim(),assignedTo:(document.getElementById('taskAssignedTo')?.value||'').trim(),repeat:taskRepeat.value,done:taskDone.value==='true',updatedAt:new Date().toISOString()};const i=db.tasks.findIndex(x=>x.id===id);i>=0?db.tasks[i]=t:db.tasks.push(t);save();closeModal('taskModal');toast('Sağlık işlemi kaydedildi.')})
+function toggleTask(id){const t=db.tasks.find(x=>x.id===id);if(!t)return;const wasDone=!!t.done;t.done=!t.done;t.completedAt=t.done?new Date().toISOString():null;if(!wasDone&&t.done&&t.repeat&&t.repeat!=='none'){const nextDate=nextRepeatDate(t.date,t.repeat);if(nextDate&&!db.tasks.some(x=>x.parentTaskId===t.id&&x.date===nextDate)){db.tasks.push({...t,id:uid('task'),date:nextDate,done:false,completedAt:null,parentTaskId:t.id,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()})}}save();toast(t.done?'İşlem tamamlandı. Tekrarlıysa sonraki kayıt oluşturuldu.':'İşlem yeniden beklemeye alındı.')}
+function deleteTask(id){if(!confirm('Bu sağlık işlemi silinsin mi?'))return;db.tasks=db.tasks.filter(t=>t.id!==id);save();toast('İşlem silindi.')}
+
+function openHealthModal(catId){document.getElementById('healthForm').reset();healthCatId.value=catId;healthDate.value=today();openModal('healthModal')}
+document.getElementById('healthForm').addEventListener('submit',e=>{e.preventDefault();const h={id:uid('health'),catId:healthCatId.value,date:healthDate.value,type:healthType.value,title:healthTitle.value.trim(),detail:healthDetail.value.trim(),weight:healthWeight.value,vet:healthVet.value.trim(),createdAt:new Date().toISOString()};db.health.push(h);if(h.weight){const c=catById(h.catId);if(c){c.weight=h.weight;c.updatedAt=new Date().toISOString()}}save();closeModal('healthModal');toast('Sağlık kaydı eklendi.');renderProfile(h.catId)})
+function deleteHealth(id,catId){if(!confirm('Bu sağlık geçmişi kaydı silinsin mi?'))return;db.health=db.health.filter(h=>h.id!==id);save();renderProfile(catId);toast('Sağlık kaydı silindi.')}
+
+function openProfile(id){currentProfileId=id;showSection('profile');renderProfile(id)}
+function renderProfile(id){const c=catById(id),el=document.getElementById('profileSection');if(!c){showSection('cats');return}const health=db.health.filter(h=>h.catId===id).sort((a,b)=>b.date.localeCompare(a.date));const tasks=db.tasks.filter(t=>t.catId===id).sort((a,b)=>a.date.localeCompare(b.date));el.innerHTML=`<div class="topbar no-print"><div><button class="btn btn-sm" onclick="showSection('cats')">← Kedilere Dön</button></div></div><div class="panel"><div class="panel-body"><div class="profile-head"><div class="profile-photo">${c.photo?`<img src="${c.photo}" alt="${esc(c.name)}">`:'🐱'}</div><div class="profile-title"><h2>${esc(c.name)}</h2><p>${ageText(c.birth)} · ${esc(c.gender)} · ${esc(c.location||'Konum yok')}</p><div class="chips" style="margin-top:12px">${c.status?`<span class="chip">${esc(c.status)}</span>`:''}${c.alerts?`<span class="chip danger">⚠ ${esc(c.alerts)}</span>`:''}${c.chronic?`<span class="chip warn">${esc(c.chronic)}</span>`:''}</div></div><div class="profile-actions no-print"><button class="btn btn-sm" onclick="openCatModal('${c.id}')">✏️ Düzenle</button><button class="btn btn-sm" onclick="openTaskModal('${c.id}')">💊 İşlem Ekle</button><button class="btn btn-sm" onclick="openHealthModal('${c.id}')">🩺 Sağlık Kaydı</button><button class="btn btn-sm" onclick="window.print()">🖨️ Yazdır</button><button class="btn btn-sm" onclick="deleteCat('${c.id}')">🗑️</button></div></div><div class="grid profile-grid"><div><h3>Kimlik ve Bakım Bilgileri</h3><div class="info-list">${infoItem('Mikroçip',c.chip||'-')}${infoItem('Doğum Tarihi',fmtDate(c.birth))}${infoItem('Renk / Özellik',c.color||'-')}${infoItem('Kilo',c.weight?c.weight+' kg':'-')}${infoItem('Kısırlaştırma',c.neutered==='yes'?'Kısırlaştırıldı':c.neutered==='no'?'Kısırlaştırılmadı':'Bilinmiyor')}${infoItem('FIV / FeLV',(c.fiv||'-')+' / '+(c.felv||'-'))}${infoItem('Mama / Diyet',c.diet||'-')}${infoItem('Genel Not',c.notes||'-')}</div><h3 style="margin-top:22px">Sağlık Geçmişi</h3><div class="timeline">${health.length?health.map(h=>`<div class="timeline-item"><h4>${esc(h.title)}</h4><p>${esc(h.type)}${h.vet?' · '+esc(h.vet):''}${h.weight?' · '+esc(h.weight)+' kg':''}</p><p>${esc(h.detail||'')}</p><small>${fmtDate(h.date)} <button class="btn btn-sm no-print" onclick="deleteHealth('${h.id}','${c.id}')">Sil</button></small></div>`).join(''):'<div class="empty">Henüz sağlık geçmişi kaydı yok.</div>'}</div></div><div><h3>Kilo Takip Grafiği</h3><div style="margin-bottom:18px">${weightChartSvg(health,c.weight)}</div><h3>QR Kimlik Kartı</h3><div class="qr-box"><div id="profileQr"></div><small style="margin-top:10px;color:var(--muted)">Kod içeriği: ${esc(c.name)} / ${esc(c.chip||c.id)}</small></div><h3 style="margin-top:22px">Yaklaşan İşlemler</h3><div class="task-list">${tasks.length?tasks.map(taskCard).join(''):'<div class="empty">Bu kediye ait işlem yok.</div>'}</div></div></div></div></div>`;setTimeout(()=>makeQr(c),100)}
+function infoItem(label,value){return `<div class="info-item"><span>${esc(label)}</span>${esc(value)}</div>`}
+function makeQr(c){const box=document.getElementById('profileQr');if(!box)return;box.innerHTML='';const text=`PatiTakip\nKedi: ${c.name}\nKimlik: ${c.chip||c.id}\nKonum: ${c.location||'-'}\nDurum: ${c.status||'-'}`;if(window.QRCode)new QRCode(box,{text,width:180,height:180,correctLevel:QRCode.CorrectLevel.M});else box.innerHTML='<div class="empty">QR modülü yüklenemedi. İnternet bağlantısını kontrol edin.</div>'}
+function deleteCat(id){const c=catById(id);if(!c||!confirm(`${c.name} adlı kedinin tüm kayıtları silinsin mi?`))return;db.cats=db.cats.filter(x=>x.id!==id);db.tasks=db.tasks.filter(x=>x.catId!==id);db.health=db.health.filter(x=>x.catId!==id);currentProfileId=null;save();showSection('cats');toast('Kedi ve bağlı kayıtları silindi.')}
+
+function openModal(id){document.getElementById(id).classList.add('show');document.body.style.overflow='hidden'}
+function closeModal(id){document.getElementById(id).classList.remove('show');document.body.style.overflow=''}
+document.querySelectorAll('.modal-backdrop').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeModal(m.id)}));
+
+function exportData(){const payload={app:'PatiTakip',version:1,exportedAt:new Date().toISOString(),data:db};downloadBlob(JSON.stringify(payload,null,2),'patitakip-yedek-'+today()+'.json','application/json');toast('Yedek dosyası hazırlandı.')}
+function importData(e){const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=()=>{try{const obj=JSON.parse(r.result);const data=obj.data||obj;if(!Array.isArray(data.cats)||!Array.isArray(data.tasks)||!Array.isArray(data.health))throw new Error('Geçersiz dosya');if(!confirm('Mevcut veriler yedek dosyasındaki verilerle değiştirilsin mi?'))return;db=data;normalize();save();toast('Yedek başarıyla geri yüklendi.')}catch(err){toast('Yedek dosyası okunamadı.')}};r.readAsText(file);e.target.value=''}
+function csvCell(v){return '"'+String(v??'').replace(/"/g,'""')+'"'}
+function downloadCatsCSV(){const rows=[['Ad','Cinsiyet','Doğum','Konum','Mikroçip','Durum','Kısırlaştırma','Kilo','FIV','FeLV','Alerji/Uyarı','Kronik Hastalık','Diyet','Not'],...db.cats.map(c=>[c.name,c.gender,c.birth,c.location,c.chip,c.status,c.neutered,c.weight,c.fiv,c.felv,c.alerts,c.chronic,c.diet,c.notes])];downloadBlob('\ufeff'+rows.map(r=>r.map(csvCell).join(';')).join('\n'),'patitakip-kediler-'+today()+'.csv','text/csv;charset=utf-8')}
+function downloadTasksCSV(){const rows=[['Tarih','Saat','Kedi','Tür','Başlık','Detay','Durum'],...db.tasks.map(t=>[t.date,t.time,catById(t.catId)?.name||'',t.type,t.title,t.detail,t.done?'Tamamlandı':isOverdue(t)?'Gecikti':'Bekliyor'])];downloadBlob('\ufeff'+rows.map(r=>r.map(csvCell).join(';')).join('\n'),'patitakip-saglik-takvimi-'+today()+'.csv','text/csv;charset=utf-8')}
+function downloadBlob(content,name,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+function printAllCats(){const w=window.open('','_blank');if(!w)return toast('Açılır pencereye izin verin.');w.document.write(`<html><head><title>PatiTakip Kedi Listesi</title><style>
+
+    :root{
+      --bg:#f7efe0;--bg-alt:#fff7ea;--panel:#fffdfa;--panel-2:#fff7eb;--text:#342516;--muted:#7d6855;
+      --primary:#ea8d22;--primary-2:#ffb44c;--success:#2b8a57;--warning:#bc7c13;--danger:#d5585b;
+      --line:#ead8bc;--shadow:0 16px 42px rgba(87,56,23,.12);--radius:24px;--sidebar:#f7e7d0;--sidebar-line:#efd8b7;
+      --hero1:#fff9f0;--hero2:#f8ecda;--soft:#fff4e4;--bubble:#ffffff;--nav-active:#f39b2c;--widget-dark:#2f3137;
+    }
+    body[data-theme="night"]{
+      --bg:#09162f;--bg-alt:#0c1c3b;--panel:#102142;--panel-2:#15284d;--text:#f8edd3;--muted:#b9b0a4;
+      --primary:#f0ad3c;--primary-2:#ffd36c;--success:#64c48f;--warning:#f2bf52;--danger:#ff8b94;
+      --line:#25355d;--shadow:0 18px 48px rgba(0,0,0,.34);--sidebar:#0b1731;--sidebar-line:#23375f;
+      --hero1:#0d1e40;--hero2:#0a1630;--soft:#102349;--bubble:#f7e5bf;--nav-active:#182b53;--widget-dark:#0c1832;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:radial-gradient(circle at top left,var(--bg-alt),var(--bg));color:var(--text);transition:background .35s ease,color .35s ease}
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer}
+    .app{min-height:100vh;display:grid;grid-template-columns:265px 1fr}
+    .sidebar{position:sticky;top:0;height:100vh;padding:18px 16px;background:linear-gradient(180deg,var(--sidebar),color-mix(in srgb,var(--sidebar) 84%, #fff 16%));border-right:1px solid var(--sidebar-line);color:var(--text);display:flex;flex-direction:column;z-index:20;transition:background .35s ease,border-color .35s ease}
+    .brand{display:flex;align-items:center;gap:12px;padding:8px 10px 20px}.brand-logo{width:48px;height:48px;border-radius:18px;background:linear-gradient(145deg,var(--primary),var(--primary-2));display:grid;place-items:center;font-size:26px;box-shadow:0 12px 28px rgba(240,156,50,.25)}
+    .brand h1{font-size:25px;margin:0;font-weight:900;letter-spacing:.2px}.brand small{color:var(--muted);font-size:12px}
+    .nav{display:grid;gap:14px;margin-top:8px}
+    .nav button{position:relative;border:1px solid var(--line);background:var(--panel);color:var(--text);padding:15px 16px 16px;border-radius:24px 24px 28px 28px;text-align:left;display:flex;gap:11px;align-items:center;font-weight:800;box-shadow:var(--shadow);transition:.22s}
+    .nav button::before,.nav button::after{content:"";position:absolute;top:-8px;width:22px;height:22px;background:var(--panel);border:1px solid var(--line);transform:rotate(45deg);border-bottom:none;border-right:none}
+    .nav button::before{left:32px}.nav button::after{right:32px}
+    .nav button:hover{transform:translateY(-2px)}
+    .nav button.active{background:linear-gradient(180deg,var(--nav-active),color-mix(in srgb,var(--nav-active) 85%, #fff 15%));color:#fff;border-color:transparent}
+    body[data-theme="night"] .nav button.active{box-shadow:0 14px 30px rgba(0,0,0,.4)}
+    .nav button.active::before,.nav button.active::after{background:inherit;border-color:transparent}
+    .miyav-bubble{align-self:flex-end;margin:4px 6px 2px auto;background:var(--bubble);color:#3d2a18;border-radius:999px;padding:8px 14px;font-weight:800;box-shadow:var(--shadow);border:1px solid var(--line)}
+    .side-footer{margin-top:auto;padding:14px 10px;color:var(--muted);font-size:12px;line-height:1.55}
+    .main{min-width:0;padding:22px 24px 48px}
+    .topbar{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:20px}.topbar h2{margin:0;font-size:27px}.topbar p{margin:4px 0 0;color:var(--muted)}
+    .top-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+    .btn{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:14px;padding:10px 14px;font-weight:800;display:inline-flex;align-items:center;gap:8px;justify-content:center;box-shadow:0 8px 18px rgba(31,36,48,.05);transition:.2s}
+    .btn:hover{transform:translateY(-1px);box-shadow:0 12px 24px rgba(31,36,48,.08)}
+    .btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;border-color:transparent}.btn-danger{color:#fff;background:var(--danger);border-color:transparent}.btn-success{color:#fff;background:var(--success);border-color:transparent}.btn-sm{padding:7px 10px;border-radius:12px;font-size:13px}
+    .grid{display:grid;gap:16px}.stats{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:18px}
+    .stat{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow);display:flex;justify-content:space-between;gap:12px;align-items:center}.stat .value{font-size:30px;font-weight:850}.stat .label{color:var(--muted);font-size:13px;margin-top:3px}.stat .icon{width:48px;height:48px;border-radius:15px;background:color-mix(in srgb,var(--panel) 20%, var(--primary) 16%);display:grid;place-items:center;font-size:23px}
+    .content-grid{grid-template-columns:1.35fr .65fr;align-items:start}
+    .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}.panel-head{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;align-items:center}.panel-head h3{margin:0;font-size:17px}.panel-body{padding:18px 20px}
+    .search-row{display:grid;grid-template-columns:1fr 170px 170px;gap:10px;margin-bottom:14px}.input,.select,.textarea{width:100%;border:1px solid var(--line);border-radius:14px;padding:11px 12px;background:var(--panel);color:var(--text);outline:none}.input:focus,.select:focus,.textarea:focus{border-color:color-mix(in srgb,var(--primary) 60%, #fff 40%);box-shadow:0 0 0 3px rgba(111,75,242,.08)}
+    .cats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+    .cat-card{border:1px solid var(--line);border-radius:17px;overflow:hidden;background:var(--panel);transition:.2s;cursor:pointer;box-shadow:var(--shadow)}.cat-card:hover{transform:translateY(-3px);box-shadow:0 14px 28px rgba(31,36,48,.1)}
+    .cat-photo{height:150px;background:linear-gradient(145deg,color-mix(in srgb,var(--panel) 70%, var(--primary) 12%),var(--panel));position:relative;overflow:hidden;display:grid;place-items:center;font-size:55px}.cat-photo img{width:100%;height:100%;object-fit:cover}.status-dot{position:absolute;right:10px;top:10px;padding:6px 9px;border-radius:999px;font-size:11px;font-weight:800;background:var(--panel);box-shadow:0 5px 14px rgba(0,0,0,.12)}
+    .cat-info{padding:13px}.cat-title{display:flex;justify-content:space-between;gap:8px;align-items:center}.cat-title h4{margin:0;font-size:16px}.cat-meta{font-size:12px;color:var(--muted);margin:5px 0 10px}.chips{display:flex;gap:6px;flex-wrap:wrap}.chip{font-size:11px;padding:5px 7px;border-radius:999px;background:color-mix(in srgb,var(--panel) 75%, var(--text) 10%);color:var(--muted)}.chip.warn{background:#fff3dc;color:#9a5f00}.chip.danger{background:#ffe8ec;color:#a92d40}.chip.good{background:#e8f7f0;color:#126d4c}
+    .task-list,.timeline{display:grid;gap:10px}.task{border:1px solid var(--line);border-radius:13px;padding:12px;display:flex;justify-content:space-between;gap:10px;align-items:flex-start;background:color-mix(in srgb,var(--panel) 88%, var(--soft) 12%)}.task.overdue{border-color:#f3b6c0;background:#fff6f8}.task.today{border-color:#f1d392;background:#fffaf0}.task strong{display:block;font-size:14px}.task small{color:var(--muted)}
+    .empty{text-align:center;padding:34px 16px;color:var(--muted)}.empty .big{font-size:42px;margin-bottom:8px}.section{display:none}.section.active{display:block}
+    .table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:760px}.table th,.table td{text-align:left;border-bottom:1px solid var(--line);padding:12px 10px;font-size:13px}.table th{color:var(--muted);font-weight:700;background:color-mix(in srgb,var(--panel) 80%, var(--soft) 20%)}
+    .badge{display:inline-flex;align-items:center;padding:5px 8px;border-radius:999px;font-size:11px;font-weight:800}.badge-green{background:#e6f7ef;color:#12734f}.badge-red{background:#ffe8ec;color:#ad3042}.badge-yellow{background:#fff4d9;color:#9d6505}.badge-gray{background:#eef0f5;color:#616879}
+    .modal-backdrop{position:fixed;inset:0;background:rgba(14,15,23,.62);display:none;align-items:center;justify-content:center;padding:18px;z-index:100}.modal-backdrop.show{display:flex}.modal{width:min(820px,100%);max-height:92vh;overflow:auto;background:var(--panel);border-radius:22px;box-shadow:0 24px 70px rgba(0,0,0,.3)}
+    .modal-head{position:sticky;top:0;background:var(--panel);z-index:2;padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.modal-head h3{margin:0}.icon-btn{width:38px;height:38px;border-radius:11px;border:1px solid var(--line);background:var(--panel);color:var(--text)}.modal-body{padding:20px}.modal-foot{position:sticky;bottom:0;background:var(--panel);padding:15px 20px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:10px}
+    .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.form-group{display:grid;gap:6px}.form-group.full{grid-column:1/-1}.form-group label{font-size:12px;font-weight:800;color:var(--muted)}.help{font-size:11px;color:var(--muted)}
+    .photo-editor{border:1px solid var(--line);border-radius:18px;background:color-mix(in srgb,var(--panel) 84%, var(--soft) 16%);padding:14px;display:grid;grid-template-columns:minmax(280px,1.25fr) minmax(220px,.75fr);gap:16px;align-items:start}
+    .photo-stage{position:relative;aspect-ratio:4/3;border-radius:16px;overflow:hidden;background:linear-gradient(145deg,color-mix(in srgb,var(--panel) 70%, var(--primary) 10%),var(--panel));border:1px dashed color-mix(in srgb,var(--line) 75%, var(--primary) 25%);touch-action:none;user-select:none;cursor:grab}.photo-stage.dragging{cursor:grabbing}.photo-stage canvas{display:block;width:100%;height:100%}.photo-empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--muted);padding:24px;pointer-events:none}.photo-empty .big{font-size:48px;display:block;margin-bottom:7px}
+    .photo-guide{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to right,transparent 33.1%,rgba(255,255,255,.55) 33.3%,rgba(255,255,255,.55) 33.7%,transparent 33.9%,transparent 66.1%,rgba(255,255,255,.55) 66.3%,rgba(255,255,255,.55) 66.7%,transparent 66.9%),linear-gradient(to bottom,transparent 33.1%,rgba(255,255,255,.55) 33.3%,rgba(255,255,255,.55) 33.7%,transparent 33.9%,transparent 66.1%,rgba(255,255,255,.55) 66.3%,rgba(255,255,255,.55) 66.7%,transparent 66.9%);opacity:.55}
+    .photo-controls{display:grid;gap:12px}.photo-controls .control{display:grid;gap:6px}.photo-controls label{font-size:12px;font-weight:800;color:var(--muted)}.photo-controls input[type=range]{width:100%;accent-color:var(--primary)}.photo-control-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.photo-preview-note{border-radius:12px;background:color-mix(in srgb,var(--panel) 70%, var(--primary) 12%);color:var(--text);padding:10px 11px;font-size:12px;line-height:1.45}.photo-file-label{width:100%}
+    .profile-head{display:grid;grid-template-columns:160px 1fr auto;gap:18px;align-items:start}.profile-photo{width:160px;height:160px;border-radius:20px;overflow:hidden;background:color-mix(in srgb,var(--panel) 72%, var(--primary) 10%);display:grid;place-items:center;font-size:64px}.profile-photo img{width:100%;height:100%;object-fit:cover}.profile-title h2{margin:0 0 5px}.profile-title p{margin:0;color:var(--muted)}.profile-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    .profile-grid{grid-template-columns:1fr 1fr;margin-top:18px}.info-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.info-item{border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--panel-2)}.info-item span{display:block;font-size:11px;color:var(--muted);margin-bottom:3px}.timeline-item{border-left:3px solid color-mix(in srgb,var(--primary) 65%, #fff 35%);padding:2px 0 12px 12px}.timeline-item h4{margin:0;font-size:15px}.timeline-item p{margin:4px 0;color:var(--muted);font-size:13px}.timeline-item small{color:var(--muted)}.qr-box{padding:18px;border:1px dashed var(--line);border-radius:16px;display:grid;place-items:center;min-height:230px;background:var(--panel-2)}
+    .toast{position:fixed;right:18px;bottom:18px;background:#20232e;color:#fff;padding:12px 14px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.25);opacity:0;pointer-events:none;transform:translateY(10px);transition:.2s;z-index:150}.toast.show{opacity:1;transform:none}
+    .dashboard-shell{display:grid;gap:18px}.hero-panel{position:relative;background:linear-gradient(160deg,var(--hero1),var(--hero2));border:1px solid var(--line);border-radius:34px;box-shadow:var(--shadow);padding:28px 26px 22px;overflow:hidden;min-height:280px}.hero-grid{display:grid;grid-template-columns:220px 1fr 220px;gap:18px;align-items:start}
+    .widget-pill{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow)}.date-widget{display:grid;gap:7px;font-weight:800}.date-widget small{color:var(--muted);font-weight:700}
+    .hero-center{text-align:center;position:relative;padding-top:20px}.hero-title{font-size:28px;font-weight:900;line-height:1.05;margin:30px 0 8px}.hero-title span{display:block;font-size:64px;color:var(--primary);letter-spacing:.4px}body[data-theme="night"] .hero-title span{color:#ffe1a6}.hero-subtitle{margin:0;color:var(--muted);font-size:17px}
+    .hanging-cat{position:absolute;left:50%;transform:translateX(-50%);top:-6px;width:160px;height:122px;pointer-events:none}.hanging-cat .head{position:absolute;left:50%;top:0;transform:translateX(-50%);width:110px;height:94px;border-radius:52% 52% 48% 48%;background:linear-gradient(180deg,#f3c586,#d89042);box-shadow:0 12px 24px rgba(0,0,0,.18);display:grid;place-items:center;font-size:54px}.hanging-cat .head::before,.hanging-cat .head::after{content:"";position:absolute;top:-16px;width:28px;height:28px;background:#e5a75d;transform:rotate(45deg);border-radius:6px}.hanging-cat .head::before{left:16px}.hanging-cat .head::after{right:16px}.hanging-cat .paw{position:absolute;top:64px;width:30px;height:44px;background:#f3d5ab;border-radius:16px;box-shadow:0 8px 18px rgba(0,0,0,.1)}.hanging-cat .paw.left{left:28px}.hanging-cat .paw.right{right:28px}.hanging-cat .head i{font-style:normal}
+    .quote-board{position:relative;padding-top:18px}.quote-board::before,.quote-board::after{content:"";position:absolute;top:0;width:2px;height:20px;background:color-mix(in srgb,var(--text) 35%, transparent 65%)}.quote-board::before{left:28px}.quote-board::after{right:28px}.quote-board p{margin:0;font-size:14px;line-height:1.6;text-align:center}
+    .theme-switcher{display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap}.theme-chip{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:999px;padding:9px 14px;font-weight:800}.theme-chip.active{background:linear-gradient(135deg,var(--primary),var(--primary-2));border-color:transparent;color:#fff}
+    .miyav-float{position:absolute;right:24px;top:78px;background:var(--bubble);padding:10px 16px;border-radius:999px;font-weight:900;border:1px solid var(--line);box-shadow:var(--shadow);color:#432b19}
+    .cat-dashboard-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.cat-widget{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:30px;box-shadow:var(--shadow);padding:22px 18px 16px;overflow:hidden;min-height:235px}.cat-widget::before,.cat-widget::after{content:"";position:absolute;top:-8px;width:26px;height:26px;background:var(--panel);border:1px solid var(--line);transform:rotate(45deg)}.cat-widget::before{left:28px}.cat-widget::after{right:28px}
+    .cat-widget--dark{background:linear-gradient(180deg,var(--widget-dark),color-mix(in srgb,var(--widget-dark) 85%, #000 15%));color:#fff;border-color:transparent}.cat-widget--dark::before,.cat-widget--dark::after{background:inherit;border-color:transparent}.cat-widget--blue{background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 72%, #c8e2ff 28%),color-mix(in srgb,var(--panel) 88%, #fff 12%))}.cat-widget--green{background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 72%, #d7f0db 28%),color-mix(in srgb,var(--panel) 88%, #fff 12%))}.cat-widget--purple{background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 72%, #e7dcff 28%),color-mix(in srgb,var(--panel) 88%, #fff 12%))}.cat-widget--yellow{background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 72%, #ffe8b8 28%),color-mix(in srgb,var(--panel) 88%, #fff 12%))}.cat-widget--peach{background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 72%, #ffd9cf 28%),color-mix(in srgb,var(--panel) 88%, #fff 12%))}
+    .widget-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}.widget-head .mini{font-size:12px;color:var(--muted);font-weight:700}.cat-widget--dark .mini,.cat-widget--dark .mini-list small{color:#c4cbe2}
+    .mini-list{display:grid;gap:10px}.mini-item{display:flex;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:16px;border:1px solid color-mix(in srgb,var(--line) 80%, transparent 20%);background:color-mix(in srgb,var(--panel) 72%, #fff 28%)}.cat-widget--dark .mini-item{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.08)}.mini-item strong{display:block;font-size:14px}.mini-item small{display:block;color:var(--muted)}.mini-item .time{font-size:12px;font-weight:900;color:var(--warning)}
+    .avatar-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.tiny-cat{width:48px;height:48px;border-radius:50%;overflow:hidden;background:color-mix(in srgb,var(--panel) 72%, var(--primary) 14%);display:grid;place-items:center;font-size:20px;border:2px solid rgba(255,255,255,.6)}.tiny-cat img{width:100%;height:100%;object-fit:cover}
+    .split-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:8px}.split-stats .box{background:color-mix(in srgb,var(--panel) 80%, #fff 20%);border:1px solid var(--line);border-radius:18px;padding:12px}.cat-widget--dark .split-stats .box{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.08)}.split-stats .value{font-size:28px;font-weight:900}.split-stats .label{font-size:12px;color:var(--muted)}
+    .line-note{background:color-mix(in srgb,var(--panel) 82%, #fff 18%);border:1px solid var(--line);border-radius:18px;padding:14px;font-size:14px;line-height:1.6}.cat-widget--dark .line-note{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.08)}.floating-paw{position:absolute;right:14px;bottom:12px;font-size:34px;opacity:.7}
+    .footer-motto{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:14px 18px;box-shadow:var(--shadow);text-align:center;font-weight:800;color:var(--muted)}
+    .theme-preview{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.theme-card{padding:18px;border-radius:22px;border:1px solid var(--line);box-shadow:var(--shadow);display:grid;gap:10px;background:var(--panel)}.theme-card.day{background:linear-gradient(180deg,#fff8ef,#f5ead7)}.theme-card.night{background:linear-gradient(180deg,#102142,#09162f);color:#fff}.theme-card strong{font-size:18px}
+    @media(max-width:1180px){.hero-grid{grid-template-columns:1fr;}.miyav-float{display:none}.cat-dashboard-grid{grid-template-columns:1fr 1fr}.cats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:760px){.app{display:block}.sidebar{display:none}.main{padding:16px 14px 86px}.topbar{align-items:flex-start}.topbar h2{font-size:23px}.topbar p{font-size:13px}.top-actions .btn:not(.btn-primary){display:none}.stats{grid-template-columns:repeat(2,1fr);gap:10px}.stat{padding:14px}.stat .value{font-size:24px}.stat .icon{width:42px;height:42px}.search-row{grid-template-columns:1fr}.cats,.cat-dashboard-grid{grid-template-columns:1fr;gap:10px}.cat-photo{height:120px}.panel-head,.panel-body{padding-left:14px;padding-right:14px}.form-grid,.profile-grid,.theme-preview{grid-template-columns:1fr}.profile-head{grid-template-columns:95px 1fr}.profile-photo{width:95px;height:95px}.profile-actions{grid-column:1/-1;justify-content:flex-start}.info-list{grid-template-columns:1fr 1fr}.mobile-nav{position:fixed;left:10px;right:10px;bottom:10px;background:var(--sidebar);border:1px solid var(--sidebar-line);color:var(--text);border-radius:18px;padding:8px;display:grid;grid-template-columns:repeat(5,1fr);z-index:40;box-shadow:0 12px 35px rgba(0,0,0,.25)}.mobile-nav button{border:0;background:transparent;color:var(--muted);padding:7px 3px;border-radius:10px;font-size:10px}.mobile-nav button span{display:block;font-size:19px;margin-bottom:2px}.mobile-nav button.active{background:var(--nav-active);color:#fff}.modal-backdrop{padding:0;align-items:flex-end}.modal{max-height:96vh;border-radius:22px 22px 0 0}.modal-body{padding:16px}.modal-head,.modal-foot{padding-left:16px;padding-right:16px}.photo-editor{grid-template-columns:1fr;padding:10px}.photo-control-row{grid-template-columns:1fr 1fr}.hero-panel{padding-top:22px}.hero-title{font-size:22px}.hero-title span{font-size:42px}.hanging-cat{width:130px;height:105px}.hanging-cat .head{width:92px;height:78px;font-size:44px}.widget-pill{padding:14px}.split-stats .value{font-size:24px}}
+    @media print{.sidebar,.mobile-nav,.topbar,.no-print,.modal-foot,.theme-switcher{display:none!important}.app{display:block}.main{padding:0}.panel,.hero-panel,.cat-widget,.footer-motto{box-shadow:none;border:0}.section{display:none!important}#profileSection{display:block!important}}
+
+  
+
+    /* --- Showcase home redesign based on user reference --- */
+    body{background:#f6eadb}
+    .app{grid-template-columns:minmax(0,1fr) 132px;align-items:start}
+    .sidebar{order:2;position:sticky;top:8px;height:calc(100vh - 16px);background:transparent;border:0;padding:18px 8px 12px;box-shadow:none;display:flex;align-items:center}
+    .brand,.miyav-bubble,.side-footer{display:none}
+    .nav{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%}
+    .nav button{position:relative;width:106px;min-height:108px;padding:18px 10px 14px;border-radius:34px;border:3px solid #e0bb83;background:linear-gradient(180deg,#fffdf6,#f4e8d6);box-shadow:0 10px 22px rgba(146,93,42,.16);color:#5f4634;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;font-weight:800}
+    .nav button::before,.nav button::after{content:"";position:absolute;top:-10px;width:28px;height:28px;background:inherit;border:3px solid #e0bb83;border-bottom:none;z-index:-1}
+    .nav button::before{left:16px;transform:rotate(-40deg);border-radius:10px 12px 0 0}
+    .nav button::after{right:16px;transform:rotate(40deg);border-radius:12px 10px 0 0}
+    .nav .nav-ico{display:grid;place-items:center;width:58px;height:58px;border-radius:50%;background:linear-gradient(180deg,#fefefe,#f4ede5);font-size:30px;box-shadow:inset 0 2px 0 rgba(255,255,255,.9),0 6px 14px rgba(0,0,0,.08)}
+    .nav .nav-txt{font-size:12px;line-height:1.1;text-align:center}
+    .nav button.active{background:linear-gradient(180deg,#ff9678,#f57a59);color:#fff;border-color:#ffd2a8;box-shadow:0 14px 30px rgba(210,89,57,.25)}
+    .nav button.active .nav-ico{background:rgba(255,255,255,.22);color:#fff}
+    .nav button.active::before,.nav button.active::after{border-color:#ffd2a8}
+    .main{padding:0 14px 30px}
+
+    .storybook-home{position:relative;min-height:100vh;background:linear-gradient(180deg,#fbf5ec 0%,#fff8ef 38%,#f5e7d8 100%);border-radius:0 0 24px 24px;overflow:hidden;padding:150px 80px 46px;box-shadow:inset 0 -12px 50px rgba(185,116,68,.08)}
+    .storybook-home::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 25% 28%,rgba(255,255,255,.9),transparent 19%),radial-gradient(circle at 56% 24%,rgba(255,255,255,.8),transparent 16%),radial-gradient(circle at 78% 27%,rgba(255,255,255,.82),transparent 18%),radial-gradient(circle at 32% 50%,rgba(221,186,145,.22) 0 2px,transparent 3px),radial-gradient(circle at 35% 52%,rgba(221,186,145,.22) 0 2px,transparent 3px),radial-gradient(circle at 41% 49%,rgba(221,186,145,.22) 0 2px,transparent 3px),radial-gradient(circle at 13% 74%,rgba(219,183,143,.18) 0 4px,transparent 5px),radial-gradient(circle at 88% 73%,rgba(219,183,143,.18) 0 4px,transparent 5px);pointer-events:none}
+    .curtain{position:absolute;background:linear-gradient(180deg,#d95a45,#b84536);box-shadow:inset -8px 0 0 rgba(102,24,19,.08),inset 8px 0 0 rgba(255,213,175,.12)}
+    .curtain-top{left:0;right:0;top:0;height:108px;border-bottom-left-radius:26px;border-bottom-right-radius:26px;background:radial-gradient(circle at 50% 0,#f1b36d 0 4px,transparent 5px),linear-gradient(180deg,#d95a45,#c14837)}
+    .curtain-top::after{content:"";position:absolute;left:0;right:0;bottom:0;height:14px;background:repeating-linear-gradient(90deg,#d8b06c 0 8px,#f4d59c 8px 14px)}
+    .curtain-left,.curtain-right{top:0;bottom:0;width:68px;border-radius:0 0 26px 26px}
+    .curtain-left{left:0}.curtain-right{right:0}
+    .curtain-left::after,.curtain-right::after{content:"";position:absolute;bottom:190px;width:18px;height:110px;background:linear-gradient(180deg,#f5d38d,#d4a84f);border-radius:999px}
+    .curtain-left::after{left:54px}.curtain-right::after{right:54px}
+
+    .logo-cloud{position:absolute;left:18px;top:18px;width:340px;background:#fffaf0;border:3px solid #cfa66a;border-radius:60px 60px 60px 90px;padding:26px 30px 22px;box-shadow:0 10px 24px rgba(145,103,53,.13);z-index:2}
+    .logo-cloud::after{content:"";position:absolute;right:16px;bottom:-18px;width:90px;height:54px;border:3px solid #cfa66a;border-top:none;border-left:none;border-radius:0 0 46px 0;background:#fffaf0;transform:skewX(-28deg)}
+    .logo-cloud h1{margin:0;font-size:44px;line-height:1}.logo-cloud p{margin:10px 0 0;font-size:16px;color:#665446}.logo-pati{color:#dd684d}.logo-takip{color:#467f79}
+
+    .speech-bubble{position:absolute;background:#fffaf0;border:3px solid #997c58;border-radius:28px;padding:10px 18px;font-size:20px;font-weight:800;color:#5f4a39;box-shadow:0 8px 16px rgba(100,74,39,.08);z-index:3}
+    .speech-bubble::after{content:"";position:absolute;width:18px;height:18px;background:#fffaf0;border-right:3px solid #997c58;border-bottom:3px solid #997c58;transform:rotate(45deg)}
+    .speech-top{right:150px;top:42px}.speech-top::after{right:24px;bottom:-11px}
+    .speech-mid{right:136px;top:430px}.speech-mid::after{right:20px;bottom:-11px}
+
+    .hero-kitten{position:absolute;left:50%;top:42px;transform:translateX(-50%);width:176px;height:200px;z-index:4}
+    .hero-kitten-face{position:absolute;left:50%;top:0;transform:translateX(-50%);width:150px;height:150px;border-radius:50%;background:radial-gradient(circle at 50% 35%,#f9e3b4,#d69d59 70%);display:grid;place-items:center;font-size:88px;box-shadow:0 14px 30px rgba(102,62,22,.18);border:5px solid #fff2db}
+    .hero-kitten-face::before,.hero-kitten-face::after{content:"";position:absolute;top:-16px;width:42px;height:42px;background:linear-gradient(180deg,#a25a30,#d69b59);border-radius:10px 40px 10px 40px}
+    .hero-kitten-face::before{left:18px;transform:rotate(-24deg)}.hero-kitten-face::after{right:18px;transform:scaleX(-1) rotate(-24deg)}
+    .hero-kitten-paw{position:absolute;bottom:0;width:34px;height:74px;background:linear-gradient(180deg,#f4c892,#e5b16e);border-radius:20px;box-shadow:0 8px 18px rgba(102,62,22,.14)}
+    .paw-left{left:42px}.paw-right{right:42px}
+
+    .welcome-block{position:relative;text-align:center;z-index:2;margin-bottom:24px}
+    .welcome-mini{font-size:34px;font-weight:900;color:#528b7a;line-height:1}
+    .welcome-name{font-size:86px;font-weight:900;line-height:.98;color:#df6c4f;text-shadow:0 3px 0 #fff,0 10px 20px rgba(147,76,48,.18)}
+
+    .feature-grid-home{position:relative;z-index:2;display:grid;grid-template-columns:repeat(6,1fr);gap:16px;margin:22px 52px 28px}
+    .feature-card{position:relative;padding:88px 14px 16px;border:3px solid #ead8bf;border-radius:36px 36px 28px 28px;background:linear-gradient(180deg,#fffdf7,#f4ebdf);box-shadow:0 10px 18px rgba(128,88,42,.1);text-align:center;color:#5e4c3b;min-height:314px;cursor:pointer}
+    .feature-card::before,.feature-card::after{content:"";position:absolute;top:-18px;width:44px;height:44px;background:inherit;border:3px solid #ead8bf;border-bottom:none;z-index:0}
+    .feature-card::before{left:18px;transform:rotate(-40deg);border-radius:14px 20px 0 0}.feature-card::after{right:18px;transform:rotate(40deg);border-radius:20px 14px 0 0}
+    .feature-card.mint{background:linear-gradient(180deg,#bedfd8,#a3c9c1)}
+    .feature-card.coral{background:linear-gradient(180deg,#ff8f73,#ef7257);color:#fff}
+    .feature-card.cream{background:linear-gradient(180deg,#fffaf0,#f4ebdb)}
+    .feature-card.active-card{transform:translateY(-4px)}
+    .feature-icon{position:absolute;top:54px;left:50%;transform:translateX(-50%);font-size:46px;z-index:1}
+    .feature-card h3{margin:0 0 10px;font-size:19px;position:relative;z-index:1}
+    .feature-card p{margin:0;font-size:14px;line-height:1.45;position:relative;z-index:1}
+    .feature-go{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#e9b445;color:#fff;font-size:22px;font-weight:900;box-shadow:0 6px 12px rgba(188,130,29,.24)}
+
+    .home-bottom-row{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1.18fr;gap:24px;margin:0 140px 0 108px;align-items:start}
+    .home-box{background:rgba(255,250,243,.94);border:3px solid #ecd6b8;border-radius:28px;padding:20px 22px;box-shadow:0 10px 18px rgba(128,88,42,.08)}
+    .home-box-title{font-size:20px;font-weight:900;margin-bottom:14px;color:#5e4c3b}
+    .quick-stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .quick-stat{display:flex;align-items:center;gap:12px;border-top:1px solid #eadccb;padding-top:12px}
+    .quick-stat:nth-child(-n+2){border-top:0;padding-top:0}
+    .q-icon{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-size:24px;background:#f1efe8;color:#d27553}
+    .quick-stat span{display:block;font-size:40px;font-weight:900;line-height:1;color:#5a4639}
+    .quick-stat small{display:block;font-size:13px;color:#705e4f}
+    .today-reminders-list{display:grid;gap:12px;min-height:175px}
+    .reminder-item{display:grid;grid-template-columns:70px 1fr auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid #eadccb}
+    .reminder-item:first-child{border-top:0;padding-top:0}
+    .reminder-time{font-weight:900;color:#6f5445}
+    .reminder-cat{display:flex;align-items:center;gap:10px}.reminder-avatar{font-size:28px}
+    .reminder-status{padding:8px 12px;border-radius:12px;font-size:13px;font-weight:800}
+    .status-done{background:#dff0e7;color:#3e7a61}.status-soon{background:#fde7b8;color:#b07715}.status-pending{background:#ece8e2;color:#6a635c}.status-overdue{background:#ffdedd;color:#bf544f}
+    .view-all-btn{margin-top:10px;border:0;background:linear-gradient(180deg,#ff8d70,#ef7257);color:#fff;border-radius:16px;padding:12px 18px;font-weight:900;box-shadow:0 10px 20px rgba(220,101,72,.18)}
+
+    body[data-theme="night"] .storybook-home{background:linear-gradient(180deg,#2c2340 0%,#2a2b48 40%,#24334c 100%)}
+    body[data-theme="night"] .storybook-home::before{opacity:.45}
+    body[data-theme="night"] .logo-cloud, body[data-theme="night"] .speech-bubble, body[data-theme="night"] .home-box{background:#f8ecd9}
+    body[data-theme="night"] .welcome-mini{color:#9be0d1}
+    body[data-theme="night"] .welcome-name{color:#ffad8c}
+    body[data-theme="night"] .nav button{background:linear-gradient(180deg,#f5ead8,#eaddc8)}
+    body[data-theme="night"] .nav button.active{background:linear-gradient(180deg,#7fd1c2,#5ab0a1)}
+
+    @media (max-width:1250px){
+      .feature-grid-home{grid-template-columns:repeat(3,1fr);margin:22px 34px 26px}
+      .home-bottom-row{grid-template-columns:1fr; margin:0 70px}
+      .welcome-name{font-size:72px}
+    }
+    @media (max-width:900px){
+      .app{grid-template-columns:1fr}
+      .sidebar{display:none}
+      .storybook-home{padding:130px 20px 100px}
+      .logo-cloud{position:relative;left:auto;top:auto;width:auto;margin-bottom:18px}
+      .curtain-left,.curtain-right,.speech-bubble{display:none}
+      .hero-kitten{top:48px;width:120px;height:150px}.hero-kitten-face{width:100px;height:100px;font-size:58px}.hero-kitten-paw{height:48px;width:22px}.paw-left{left:28px}.paw-right{right:28px}
+      .welcome-mini{font-size:24px}.welcome-name{font-size:54px}
+      .feature-grid-home{grid-template-columns:1fr 1fr;margin:20px 0}
+      .feature-card{min-height:260px;padding-top:76px}
+      .home-bottom-row{margin:0;gap:18px}
+    }
+    @media (max-width:640px){
+      .feature-grid-home{grid-template-columns:1fr}
+      .welcome-name{font-size:40px}
+      .logo-cloud h1{font-size:34px}
+      .quick-stats-grid{grid-template-columns:1fr}
+      .home-box{padding:16px}
+      .reminder-item{grid-template-columns:58px 1fr;grid-template-areas:'time info''state state'}
+      .reminder-time{grid-area:time}.reminder-cat{grid-area:info}.reminder-status{grid-area:state;justify-self:start}
+    }
+
+  </style></head><body><h1>PatiTakip Kedi Listesi</h1><p>${fmtDate(today())} · Toplam ${db.cats.length} kedi</p>${db.cats.map(c=>`<div class="card"><h2>${esc(c.name)}</h2><div class="meta">${esc(c.gender)} · ${ageText(c.birth)} · ${esc(c.status)}</div><table><tr><td>Konum</td><td>${esc(c.location||'-')}</td></tr><tr><td>Mikroçip</td><td>${esc(c.chip||'-')}</td></tr><tr><td>Kilo</td><td>${esc(c.weight||'-')}</td></tr><tr><td>Kronik Hastalık</td><td>${esc(c.chronic||'-')}</td></tr><tr><td>Uyarı</td><td>${esc(c.alerts||'-')}</td></tr></table></div>`).join('')}</body></html>`);w.document.close();w.print()}
+function resetAllData(){if(!confirm('Tüm kedi, sağlık ve takvim kayıtları kalıcı olarak silinecek. Devam edilsin mi?'))return;db={cats:[],tasks:[],health:[],settings:{}};save();toast('Tüm veriler silindi.')}
+function loadDemoData(){if(db.cats.length&&!confirm('Örnek veriler mevcut kayıtlara eklensin mi?'))return;const c1={id:uid('cat'),name:'Pamuk',gender:'Dişi',birth:'2022-05-10',color:'Beyaz, sağ kulağında gri leke',location:'Ev',chip:'',status:'Bakımda',neutered:'yes',weight:'4.1',fiv:'Negatif',felv:'Negatif',alerts:'',chronic:'',diet:'Yetişkin kedi maması',notes:'Sakin ve insanlarla uyumlu.',createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};const c2={id:uid('cat'),name:'Tekir',gender:'Erkek',birth:'2020-09-01',color:'Kahverengi tekir',location:'Bahçe A Bölgesi',chip:'900123456789',status:'Bakımda',neutered:'yes',weight:'5.3',fiv:'Yapılmadı',felv:'Yapılmadı',alerts:'Penisilin hassasiyeti şüphesi',chronic:'Böbrek takibi',diet:'Böbrek destek diyeti',notes:'Sabahları A kapısında bekler.',createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};db.cats.push(c1,c2);db.tasks.push({id:uid('task'),catId:c1.id,type:'Aşı',date:today(),time:'14:00',title:'Karma aşı kontrolü',detail:'Aşı kartını veterinere götür.',repeat:'yearly',done:false},{id:uid('task'),catId:c2.id,type:'İlaç',date:new Date(Date.now()+86400000).toISOString().slice(0,10),time:'09:00',title:'Göz damlası',detail:'Veterinerin belirttiği şekilde uygulanacak.',repeat:'daily',done:false});db.health.push({id:uid('health'),catId:c2.id,date:today(),type:'Muayene',title:'Genel kontrol',detail:'Böbrek değerleri için kan tahlili önerildi.',weight:'5.3',vet:'Örnek Veteriner Kliniği'});save();toast('Örnek veriler yüklendi.')}
+load();loadAdvancedSettings();setTimeout(()=>{checkPinLock();checkDueNotifications(false)},500);
+
+</script>
+</body>
+</html>
